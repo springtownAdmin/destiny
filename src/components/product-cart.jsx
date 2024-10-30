@@ -5,6 +5,7 @@ import img3 from '/images/prod-3.webp';
 import { IoLogOutOutline } from "react-icons/io5";
 import { RiCloseLine } from "react-icons/ri";
 import { TbExternalLink } from "react-icons/tb";
+import Payment from './payment-integration/Payment';
 
 const BackDrop = ({ isOpen, setIsOpen }) => {
 
@@ -188,6 +189,8 @@ const SideBarRight = (props) => {
                     Add to bag
                 </button>
 
+                <Payment />
+
 
             </div>
 
@@ -340,6 +343,8 @@ const ProductCart = (props) => {
                         >
                         Add to bag
                         </button>
+
+                        <Payment />
 
                         
                         
