@@ -1,7 +1,7 @@
 import React from 'react';
 import { HeroProduct, Header, Ingridients, ProductAd } from './components/common';
 import { TopReviews, RewardsBenefits, Footer } from './components/common';
-import './app.css'
+import './App.css'
 import ProductCart from './components/product-cart';
 import Middleware from './components/middleware';
 
