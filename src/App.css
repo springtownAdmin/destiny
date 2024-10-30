@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+.work-sans-200 {
+  font-family: "Work Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 200;
+  font-style: normal;
+}
+
+.work-sans-300 {
+  font-family: "Work Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.work-sans-400 {
+  font-family: "Work Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.work-sans-500 {
+  font-family: "Work Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BentonSans Medium';
+  src: url('/fonts/BentonSans_Medium.otf') format('otf');
+
+}
+
+@font-face {
+  font-family: 'Boita';
+  src: url('/fonts/DEMO-boita-bold.otf') format('otf'),
+       url('/fonts/DEMO-boita-medium.otf') format('otf'),
+       url('/fonts/DEMO-boita-regular.otf') format('otf');
+
+}
+
+.boita {
+  font-family: 'Boita', sans-serif, serif;
+}
+
+.benton-medium{
+  font-family: 'BentonSans Medium', sans-serif, serif;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-weight: 500;
+  font-style: normal;
+  font-family: 'Work Sans', sans-serif;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge, and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
