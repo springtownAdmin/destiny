@@ -9,7 +9,9 @@ const CheckoutForm = () => {
   const [success, setSuccess] = useState(false);
 
   useEffect(() => {
+
     if (stripe) {
+      
       const request = stripe.paymentRequest({
         country: 'US',
         currency: 'usd',
@@ -71,6 +73,7 @@ const CheckoutForm = () => {
         event.updateWith({ status: 'success' }); // Always mark as success for this example
       });
     }
+
   }, [stripe]);
 
   return (

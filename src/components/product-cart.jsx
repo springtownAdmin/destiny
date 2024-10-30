@@ -182,8 +182,7 @@ const SideBarRight = (props) => {
                 </div>
 
                 {/* Add to Cart Button */}
-                <button
-                    className="w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
+                <button className="w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
                     hover:bg-pink-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     Add to bag
@@ -222,7 +221,7 @@ const ProductCart = (props) => {
     const { announcement = 'FREE SHIPPING FOR HALLOWEEN' } = props;
     const { product_title = 'botanical soda variety (18 pack)' } = props;
     const { sub_title = 'Halloween, Thanksgiving, and Fall will never be the same.' } = props;
-    const { price = '54' } = props;
+    const { price = '20' } = props;
     const { images = [ img1, img2, img3 ] } = props;
 
     const [selectedImage, setSelectedImage] = useState(0);
