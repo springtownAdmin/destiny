@@ -38,8 +38,8 @@ export default function App() {
     
       <div className='relative w-full'>
 
-        <ProductCart />
-        {/* <Middleware /> */}
+        {/* <ProductCart /> */}
+        <Middleware />
 
       </div>
 
