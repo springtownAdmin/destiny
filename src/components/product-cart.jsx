@@ -26,7 +26,7 @@ const SideBarRight = (props) => {
 
     const { isOpen, setIsOpen, images, selectedImage2, setSelectedImage2, activeTab } = props;
     const { setActiveTab, purchaseOption2, setPurchaseOption2 } = props;
-    const { product_title, price } = props;
+    const { product_title, price, description } = props;
 
     return (
         <>
@@ -54,7 +54,7 @@ const SideBarRight = (props) => {
                             <img
                                 src={images[selectedImage2]}
                                 alt="Product"
-                                className="object-cover transition-opacity duration-300"
+                                className="object-cover w-full h-full transition-opacity duration-300"
                             />
                         </div>
                     </div>
@@ -74,14 +74,14 @@ const SideBarRight = (props) => {
                     </div>
 
                     {/* Product Title and Price */}
-                    <div className="flex justify-between items-start">
+                    <div className="flex justify-between items-center">
                         <div className="space-y-1">
                             <h2 className="text-2xl font-serif font-bold">{product_title}</h2>
                             <a href="https://shop.drinkmoment.com/" target='_blank' className="font-light text-gray-600 hover:text-gray-900 inline-flex items-center gap-1">
                                 View on site <TbExternalLink className="w-4 h-4" />
                             </a>
                         </div>
-                        <div className="text-xl font-bold font-serif">US ${price}</div>
+                        <div className="text-xl font-bold font-serif text-nowrap">US ${price}</div>
                     </div>
 
                     {/* Free Shipping Banner */}
@@ -134,7 +134,7 @@ const SideBarRight = (props) => {
                     {/* Tabs */}
                     <div className="border-b">
                         <div className="flex gap-4">
-                            <button
+                             <button
                                 onClick={() => setActiveTab('description')}
                                 className={`pb-2 text-sm font-medium transition-colors relative
                                 ${activeTab === 'description' ? 'text-black' : 'text-gray-500'}`}
@@ -160,25 +160,9 @@ const SideBarRight = (props) => {
                     {/* Tab Content */}
                     <div className="space-y-4">
                         {activeTab === 'description' ? (
-                        <>
-                            <p className="text-gray-600 font-light">Meet our three new sparkling flavors in one variety pack:</p>
-                            <ul className="space-y-4">
-                            <li className='font-light'>
-                                <strong>Strawberry rose:</strong> sweet juicy strawberry kissed with fragrant rose petals - delicate,
-                                yet bursting with flavor.
-                            </li>
-                            <li className='font-light'>
-                                <strong>Blackberry lavender:</strong> sweet ripe blackberries with a calming touch of lavender,
-                                making every sip feel like a sweet escape.
-                            </li>
-                            <li className='font-light'>
-                                <strong>Mango chili:</strong> tropical mangos with a subtle fiery kick of chili peppers to spice up
-                                your day.
-                            </li>
-                            </ul>
-                        </>
+                            <p className="text-gray-600 font-light">{description}</p>
                         ) : (
-                        <p className="text-gray-600 font-light">Ingredients information coming soon...</p>
+                            <p className="text-gray-600 font-light">Ingredients information coming soon...</p>
                         )}
                     </div>
 
@@ -197,6 +181,90 @@ const SideBarRight = (props) => {
             </div>
         </>
     )
+}
+
+const AddToCart = (props) => {
+
+    const { setIsOpen2, isOpen2, product_title, price } = props;
+    const [count, setCount] = useState(2)
+
+    const increment = () => setCount(prev => prev + 1)
+    const decrement = () => setCount(prev => Math.max(1, prev - 1))
+    
+
+    return (
+        <div className={`absolute right-0 top-0 h-full w-full md:w-[400px] bg-white z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto ${isOpen2 ? 'translate-x-0' : 'translate-x-full'}`}>
+                    
+            {/* Header */}
+            <div className="sticky top-0 z-10 flex items-center justify-between p-4 bg-white border-b">
+
+                <div className="flex items-center gap-2">
+                    <span className="font-medium">Your Cart</span>
+                </div>
+
+                <button onClick={() => setIsOpen2(false)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+                    <RiCloseLine className="w-5 h-5" />
+                </button>
+
+            </div>
+
+            <div className="p-4 space-y-6 w-full">
+
+                <div className='flex justify-between w-full'>
+
+                    {/* <div><img src='/images/prod-1.webp' alt='product-1' className='h-10 w-10' /></div>
+                    <div>
+                        <div>{product_title}</div>
+                        <div>${price}</div>
+                    </div> */}
+
+                    <div className="p-4 font-sans">
+
+                        <div><img src='/images/prod-1.webp' alt='product-1' className='h-[21rem] rounded-md w-full' /></div>
+
+                        <p className="text-md text-gray-800 font-semibold mb-4">
+                            {product_title}
+                        </p>
+
+                        <div className="flex items-center justify-between mb-4">
+                            <div className="flex items-center">
+                            <button
+                                onClick={decrement}
+                                className="w-8 h-8 rounded-full bg-pink-200 text-pink-500 flex items-center justify-center text-xl font-bold"
+                            >
+                                -
+                            </button>
+                            <span className="mx-4 w-8 text-center text-xl">{count}</span>
+                            <button
+                                onClick={increment}
+                                className="w-8 h-8 rounded-full bg-pink-200 text-pink-500 flex items-center justify-center text-xl font-bold"
+                            >
+                                +
+                            </button>
+                            </div>
+                            <span className="text-xl font-bold">${parseFloat(price) * count}</span>
+                        </div>
+
+                        <>
+                            {/* <button className="w-full bg-pink-400 text-white py-3 rounded-full text-lg font-bold mb-2">
+                                ADD TO CART
+                            </button> */}
+
+                            <div className='bg-gray-200 p-3 flex justify-center'>Shop Pay button will come here</div>
+
+                            <p className="text-sm text-gray-600 text-center">
+                                free shipping on all orders!
+                            </p>
+                        </>
+                    </div>
+
+                </div>
+
+            </div>
+            
+        </div>
+    )
+
 }
 
 const Footer = () => {
@@ -223,27 +291,38 @@ const ProductCart = (props) => {
     const { announcement = 'FREE SHIPPING FOR HALLOWEEN' } = props;
     const { product_title = 'botanical soda variety (18 pack)' } = props;
     const { sub_title = 'Halloween, Thanksgiving, and Fall will never be the same.' } = props;
-    const { price = '20' } = props;
+    const { price = '20', description = 'Description will come soon.' } = props;
     const { images = [ img1, img2, img3 ] } = props;
 
     const [selectedImage, setSelectedImage] = useState(0);
     const [selectedImage2, setSelectedImage2] = useState(0);
-    const [activeTab, setActiveTab] = useState('description')
+    const [activeTab, setActiveTab] = useState('description');
     const [purchaseOption, setPurchaseOption] = useState('one-time');
     const [purchaseOption2, setPurchaseOption2] = useState('one-time');
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen2, setIsOpen2] = useState(false);
+
+    const handleCart = () => {
+
+        setIsOpen2(true);
+
+    }
   
     return (
         <div className="min-h-screen bg-white relative">
 
             <BackDrop isOpen={isOpen} setIsOpen={setIsOpen} />
 
-            <SideBarRight product_title={product_title} price={price} isOpen={isOpen} setIsOpen={setIsOpen} images={images} selectedImage2={selectedImage2} setSelectedImage2={setSelectedImage2} activeTab={activeTab} setActiveTab={setActiveTab} purchaseOption2={purchaseOption2} setPurchaseOption2={setPurchaseOption2} />
+            <BackDrop isOpen={isOpen2} setIsOpen={setIsOpen2} />
+
+            <SideBarRight product_title={product_title} description={description} price={price} isOpen={isOpen} setIsOpen={setIsOpen} images={images} selectedImage2={selectedImage2} setSelectedImage2={setSelectedImage2} activeTab={activeTab} setActiveTab={setActiveTab} purchaseOption2={purchaseOption2} setPurchaseOption2={setPurchaseOption2} />
+
+            <AddToCart isOpen2={isOpen2} setIsOpen2={setIsOpen2} product_title={product_title} price={price} />
 
             {/* Announcement Banner */}
-            <div className="w-full bg-[#ffff99] p-2 text-center text-sm font-medium">
+            {announcement !== '' && <div className="w-full bg-[#ffff99] uppercase p-2 text-center text-sm font-medium">
                 {announcement}
-            </div>
+            </div>}
 
             <main className="container mx-auto px-4 py-8">
 
@@ -265,7 +344,7 @@ const ProductCart = (props) => {
                                 <img
                                     src={images[selectedImage]}
                                     alt="Botanical Soda Variety Pack"
-                                    className="object-cover transition-opacity duration-300 ease-in-out"
+                                    className="object-cover w-full h-full transition-opacity duration-300 ease-in-out"
                                 />
                             </div>
                         </div>
@@ -293,9 +372,9 @@ const ProductCart = (props) => {
 
                     {/* Product Details */}
                     <div className="space-y-6">
-                        <div className="flex justify-between items-start">
+                        <div className="flex justify-between items-center">
                             <h2 className="text-2xl font-serif font-bold">{product_title}</h2>
-                            <div className="text-xl font-serif font-bold">US ${price}</div>
+                            <div className="text-xl font-serif font-bold text-nowrap">US ${price}</div>
                         </div>
 
                         {/* Purchase Options */}
@@ -337,18 +416,13 @@ const ProductCart = (props) => {
                         </div>
 
                         {/* Add to Cart Button */}
-                        <button
-                        
-                        className="w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
+                        <button onClick={handleCart} className="w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
                             hover:bg-pink-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                        Add to cart
+                            Add to cart
                         </button>
 
                         <Payment />
-
-                        
-                        
 
                     </div>
 

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import { Button, Grid2, Select } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
@@ -8,6 +8,55 @@ import { IoIosCloseCircle } from "react-icons/io";
 import { FiUpload } from "react-icons/fi";
 import ProductCart from './product-cart';
 import Divider from '@mui/material/Divider';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import Loader from './common/loader';
+// import {gql} from '@shopify/hydrogen-react';
+
+// export const GET_PRODUCTS_QUERY =`
+// query {
+//   products(first: 10) {
+//     edges {
+//       node {
+//         id
+//         title
+//         descriptionHtml
+//         vendor
+//         productType
+//         createdAt
+//         updatedAt
+//         variants(first: 5) {
+//           edges {
+//             node {
+//               id
+//               title
+//               priceV2 {
+//                 amount
+//                 currencyCode
+//               }
+//               sku
+//               availableForSale
+//               image {
+//                 src
+//                 altText
+//               }
+//             }
+//           }
+//         }
+//         images(first: 5) {
+//           edges {
+//             node {
+//               src
+//               altText
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }
+// `;
+
 
 const Middleware = () => {
 
@@ -16,16 +65,47 @@ const Middleware = () => {
         tagline: '',
         subtitle: '',
         product_title: '',
+        announcement: '',
+        description: '',
         price: ''
     });
 
     const [ productItem, setProductItem ] = useState('');
+    const [products, setProducts] = useState([]);
 
     const [ isFormEmpty, setFormEmpty ] = useState(true);
 
     const fileRef = useRef(null);
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [ showLoader, setShowLoader ] = useState(false);
+    // const {product, variants, setSelectedVariant} = useProduct();
+
+
+    useEffect(() => {
+
+        const getAllProductsList = async (cursor = null) => {
+
+            try {
+
+                const response = await axios.get('http://54.162.201.2:8000/api/products');
+                const productData = response.data.products;
+
+                const updatedProductData = productData.map((x) => ({ id: x.id, title: x.title, key: x.id.match(/(\d+)$/)[0] }))
+                setProducts(updatedProductData);
+
+            } catch (e) {
+
+                console.log(e.message);
+                toast.error('Something went wrong!');
+
+            }
+
+        }
+
+        getAllProductsList();
+
+    }, []);
 
     const handleChange = (e) => {
 
@@ -55,27 +135,51 @@ const Middleware = () => {
     const handleReset = () => {
 
         setFiles([]);
-        setFormData({ tagline: '', subtitle: '', product_title: '', price: '' });
+        setFormData({ tagline: '', subtitle: '', product_title: '', price: '', announcement: '', description: '' });
         setFormEmpty(true);
 
     }
 
     const handleProducts = (e) => {
 
+        console.log(e.target.value);
         setProductItem(e.target.value);
 
     }
 
-    const handleGenerate = () => {
+    const handleGenerate = async () => {
 
         setLoading(true);
         setTimeout(() => {
 
             setLoading(false);
-            if (formData.product_title !== '' && formData.price !== '' && formData.tagline !== '')
+            if (formData.product_title !== '' && formData.price !== '')
                 setFormEmpty(false);
 
         },2000);
+
+    }
+
+    const handleFetchProduct = async () => {
+
+        try {
+
+            setShowLoader(true)
+            const response = await axios.get(`http://54.162.201.2:8000/api/products/${productItem}`);
+            const result = response.data.product;
+            console.log(result);
+            setFormData({ ...formData, product_title: result.title, price: result.price, description: result.description })
+            setFiles(result.images);
+
+        } catch (e) {
+
+            toast.error('Something went wrong!');
+
+        } finally {
+
+            setShowLoader(false);
+
+        }
 
     }
 
@@ -91,14 +195,19 @@ const Middleware = () => {
                     
                                 <Grid2 spacing={1} container size={12}>
                                     <Grid2 size={{ xs: 12, md: 8 }}>
-                                        <TextField id="select" label="Products" value={productItem} onChange={handleProducts} select fullWidth>
-                                            <MenuItem value="orange_juice">Orange Juice</MenuItem>
-                                            <MenuItem value="apple_juice">Apple Juice</MenuItem>
-                                            <MenuItem value="mango_juice">Mango Juice</MenuItem>
+                                        <TextField id="select" label="Products" disabled={products.length === 0} value={productItem} onChange={handleProducts} select fullWidth>
+                                            {products.map((x) => (
+                                                <MenuItem value={x.key}>{x.title}</MenuItem>
+                                            ))}
                                         </TextField>
                                     </Grid2>
                                     <Grid2 size={{ xs: 12, md: 4 }}>
-                                        <button className='bg-blue-700 w-full hover:bg-blue-800 transition-all duration-150 text-white p-4 rounded-md'>Fetch Details</button>
+                                        {
+                                            showLoader ?
+                                            <button className='bg-blue-700 cursor-wait w-full opacity-50 text-white p-4 rounded-md'><Loader color='#ffffff' /></button> :
+                                            <button onClick={handleFetchProduct} className='bg-blue-700 w-full hover:bg-blue-800 transition-all duration-150 text-white p-4 rounded-md'>Fetch Details</button>
+
+                                        }
                                     </Grid2>
                                 </Grid2>
                                 
@@ -110,9 +219,11 @@ const Middleware = () => {
                         <div className='m-2'>
                             <Grid2 container spacing={1}>
                                 <Grid2 spacing={1} container size={12}>
-                                    <TextField disabled={productItem === ''} name='tagline' value={formData.tagline} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Tagline" variant="outlined" fullWidth />
-                                    <TextField disabled={productItem === ''} name='subtitle' value={formData.subtitle} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Sub title" variant="outlined" fullWidth />
-                                    
+                                    <TextField disabled={productItem === ''} name='announcement' value={formData.announcement} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Announcement (optional)" variant="outlined" fullWidth />
+                                    <TextField disabled={productItem === ''} name='tagline' value={formData.tagline} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Tagline (optional)" variant="outlined" fullWidth />
+                                    <TextField disabled={productItem === ''} name='subtitle' value={formData.subtitle} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Sub title (optional)" variant="outlined" fullWidth />
+                                    <TextField disabled={productItem === ''} name='description' value={formData.description} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Description" variant="outlined" multiline rows={5} fullWidth />
+                                
                                     <Grid2 spacing={1} container size={12}>
                                         <Grid2 size={{ xs: 12, md: 6 }}>
                                             <TextField disabled={productItem === ''} name='product_title' fullWidth value={formData.product_title} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Product title" variant="outlined" />
@@ -160,9 +271,14 @@ const Middleware = () => {
                                     <div className='w-full'>
                                         <div className='w-full flex justify-end items-center gap-2'>
                                             <button onClick={handleReset} className='w-[100px] border rounded-md p-3 bg-black border-black text-white hover:bg-white hover:text-black transition-colors duration-150'>Reset</button>
-                                            <button className='p-3 flex items-center gap-2 border rounded-md border-black hover:bg-black hover:text-white transition-colors duration-150'>
-                                                {loading ? <>Loading...</> : <span className='flex items-center gap-2' onClick={handleGenerate}>Generate site <WiStars size={25} /></span> }
-                                            </button>
+                                            {loading ? 
+                                                <button className='p-3 gap-2 border rounded-md border-black opacity-50 w-[100px] cursor-wait'>
+                                                    <Loader color='#000000' />
+                                                </button>
+                                                : <button className='p-3 flex items-center gap-2 border rounded-md border-black hover:bg-black hover:text-white transition-colors duration-150'>
+                                                    <span className='flex items-center gap-2' onClick={handleGenerate}>Generate site <WiStars size={25} /></span>
+                                                </button>
+                                            }
                                         </div>
                                     </div>
                                 </Grid2>
@@ -173,8 +289,8 @@ const Middleware = () => {
                 </div>
 
                 <div className='md:w-1/2 border rounded-md'>
-                    {!isFormEmpty && <div className='overflow-auto m-1 border h-[99%] w-[98.5%]'>
-                        <ProductCart tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} />
+                    {!isFormEmpty && <div className='overflow-y-auto overflow-x-hidden m-1 border h-[99%] w-[98.5%]'>
+                        <ProductCart tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} />
                     </div>}
                 </div>
 

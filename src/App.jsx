@@ -4,6 +4,15 @@ import { TopReviews, RewardsBenefits, Footer } from './components/common';
 import './App.css'
 import ProductCart from './components/product-cart';
 import Middleware from './components/middleware';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {createStorefrontClient} from '@shopify/hydrogen-react';
+
+// export const client = createStorefrontClient({
+//   // load environment variables according to your framework and runtime
+//   storeDomain: process.env.VITE_DOMAIN,
+//   publicStorefrontToken: process.env.VITE_ACCESS_TOKEN,
+// });
 
 const Extra = () => {
 
@@ -38,9 +47,10 @@ export default function App() {
     
       <div className='relative w-full'>
 
-        {/* <ProductCart /> */}
-        <Middleware />
+        <ProductCart />
+        {/* <Middleware /> */}
 
+        <ToastContainer />
       </div>
 
     </>
