@@ -185,7 +185,7 @@ const SideBarRight = (props) => {
 
 const AddToCart = (props) => {
 
-    const { setIsOpen2, isOpen2, product_title, price } = props;
+    const { setIsOpen2, isOpen2, product_title, price, images } = props;
     const [count, setCount] = useState(2)
 
     const increment = () => setCount(prev => prev + 1)
@@ -193,7 +193,7 @@ const AddToCart = (props) => {
     
 
     return (
-        <div className={`absolute right-0 top-0 h-full w-full md:w-[400px] bg-white z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto ${isOpen2 ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className={`fixed md:absolute right-0 top-0 h-full w-full md:w-[400px] bg-white z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto ${isOpen2 ? 'translate-x-0' : 'translate-x-full'}`}>
                     
             {/* Header */}
             <div className="sticky top-0 z-10 flex items-center justify-between p-4 bg-white border-b">
@@ -212,15 +212,9 @@ const AddToCart = (props) => {
 
                 <div className='flex justify-between w-full'>
 
-                    {/* <div><img src='/images/prod-1.webp' alt='product-1' className='h-10 w-10' /></div>
-                    <div>
-                        <div>{product_title}</div>
-                        <div>${price}</div>
-                    </div> */}
+                    <div className="p-4 font-sans w-full">
 
-                    <div className="p-4 font-sans">
-
-                        <div><img src='/images/prod-1.webp' alt='product-1' className='h-[21rem] rounded-md w-full' /></div>
+                        <div className='w-full'><img src={images[0]} alt='product-main-image' className='h-[21rem] rounded-md w-full' /></div>
 
                         <p className="text-md text-gray-800 font-semibold mb-4">
                             {product_title}
@@ -246,11 +240,11 @@ const AddToCart = (props) => {
                         </div>
 
                         <>
-                            {/* <button className="w-full bg-pink-400 text-white py-3 rounded-full text-lg font-bold mb-2">
+                            <button className="w-full bg-pink-400 text-white py-3 rounded-full text-lg font-bold mb-2">
                                 ADD TO CART
-                            </button> */}
+                            </button>
 
-                            <div className='bg-gray-200 p-3 flex justify-center'>Shop Pay button will come here</div>
+                            {/* <div className='bg-gray-200 p-3 flex justify-center'>Shop Pay button will come here</div> */}
 
                             <p className="text-sm text-gray-600 text-center">
                                 free shipping on all orders!
@@ -317,7 +311,7 @@ const ProductCart = (props) => {
 
             <SideBarRight product_title={product_title} description={description} price={price} isOpen={isOpen} setIsOpen={setIsOpen} images={images} selectedImage2={selectedImage2} setSelectedImage2={setSelectedImage2} activeTab={activeTab} setActiveTab={setActiveTab} purchaseOption2={purchaseOption2} setPurchaseOption2={setPurchaseOption2} />
 
-            <AddToCart isOpen2={isOpen2} setIsOpen2={setIsOpen2} product_title={product_title} price={price} />
+            <AddToCart isOpen2={isOpen2} setIsOpen2={setIsOpen2} product_title={product_title} price={price} images={images} />
 
             {/* Announcement Banner */}
             {announcement !== '' && <div className="w-full bg-[#ffff99] uppercase p-2 text-center text-sm font-medium">
