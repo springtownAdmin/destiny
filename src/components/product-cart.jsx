@@ -309,7 +309,7 @@ const ProductCart = (props) => {
     }
   
     return (
-        <div className="min-h-screen bg-white relative">
+        <div className="min-h-screen bg-white relative overflow-x-hidden">
 
             <BackDrop isOpen={isOpen} setIsOpen={setIsOpen} />
 
