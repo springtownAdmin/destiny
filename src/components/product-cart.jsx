@@ -240,11 +240,11 @@ const AddToCart = (props) => {
                         </div>
 
                         <>
-                            <button className="w-full bg-pink-400 text-white py-3 rounded-full text-lg font-bold mb-2">
+                            {/* <button className="w-full bg-pink-400 text-white py-3 rounded-full text-lg font-bold mb-2">
                                 ADD TO CART
-                            </button>
+                            </button> */}
 
-                            {/* <div className='bg-gray-200 p-3 flex justify-center'>Shop Pay button will come here</div> */}
+                            <div className='bg-gray-200 p-3 flex justify-center'>Shop Pay button will come here</div>
 
                             <p className="text-sm text-gray-600 text-center">
                                 free shipping on all orders!
