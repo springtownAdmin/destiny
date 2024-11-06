@@ -296,7 +296,8 @@ const ProductCart = (props) => {
     const image04 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/1_f307201d-ae69-4916-8dbc-d59fdec8a726.png?v=1729596554';
     const image05 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/2_9ef2c7d4-500e-4ce3-b471-35fcbd54628f.png?v=1729596554';
 
-    const { images = [ image01, image02, image03, image04, image05 ] } = props;
+    // const { images = [ img1, img2, img3 ] } = props;
+    const { images = [ image01, image02, image03 ] } = props;
     const { variantId = 'gid://shopify/ProductVariant/46085726306461' } = props;
 
     const [selectedImage, setSelectedImage] = useState(0);
