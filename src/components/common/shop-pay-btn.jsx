@@ -46,7 +46,7 @@ const ShopPayButton = ({ variantId, quantity = 1 }) => {
         <button onClick={handleShopPayCheckout} className={`w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
             ${showLoader ? 'opacity-50 cursor-not-allowed' : 'hover:bg-pink-700 transition-colors duration-200'} disabled:opacity-50 disabled:cursor-not-allowed`}
         >
-            {showLoader ? <Loader color='#ffffff' /> : 'Add to cart'}
+            {showLoader ? <Loader color='#ffffff' /> : 'Buy Now'}
         </button>
         // <button onClick={handleShopPayCheckout} disabled={showLoader} className={`bg-pink-600 ${showLoader ? 'opacity-50' : 'hover:bg-pink-800 transition-all duration-150'} flex p-3 w-full justify-center items-center gap-2 text-white rounded-md`}>
         //     {showLoader ? <Loader color='#ffffff'/> :

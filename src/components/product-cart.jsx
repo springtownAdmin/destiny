@@ -286,19 +286,21 @@ const ProductCart = (props) => {
 
     const { tagline = 'The best drink for fall' } = props;
     const { announcement = 'FREE SHIPPING FOR HALLOWEEN' } = props;
-    const { product_title = 'still & sparkling variety (18 pack)' } = props;
+    const { product_title = 'blue shirt' } = props;
     const { sub_title = 'Halloween, Thanksgiving, and Fall will never be the same.' } = props;
-    const { price = '54', description = 'Find your favorite flavor of calm with our bestselling still and sparkling flavors. Refreshing fruits like juicy plums, Meyer lemon, delicious blueberries, floral lychees, refreshing blood orange, and bright black cherries Natural botanicals such as ginger, hibiscus, rhubarb, and jasmine Adaptogens such as L-theanine, ashwagandha, ginseng, and tulsi' } = props;
+    const { price = '0.01', description = 'Description will come soon.' } = props;
 
-    const image01 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/websitePDPphotos.png?v=1729596554';
-    const image02 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/websitePDPphotos_7f5dde33-cd53-4439-a547-eae8bfd0d2eb.png?v=1729596554';
-    const image03 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/15-20calories_82318b4b-6bec-405c-8377-94924ef51b8d.png?v=1729596554';
-    const image04 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/1_f307201d-ae69-4916-8dbc-d59fdec8a726.png?v=1729596554';
-    const image05 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/2_9ef2c7d4-500e-4ce3-b471-35fcbd54628f.png?v=1729596554';
+    // const image01 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/websitePDPphotos.png?v=1729596554';
+    // const image02 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/websitePDPphotos_7f5dde33-cd53-4439-a547-eae8bfd0d2eb.png?v=1729596554';
+    // const image03 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/15-20calories_82318b4b-6bec-405c-8377-94924ef51b8d.png?v=1729596554';
+    // const image04 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/1_f307201d-ae69-4916-8dbc-d59fdec8a726.png?v=1729596554';
+    // const image05 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/2_9ef2c7d4-500e-4ce3-b471-35fcbd54628f.png?v=1729596554';
+
+    const image01 = "https://cdn.shopify.com/s/files/1/0690/0468/9565/files/blueshirt.jpg?v=1729298939"
 
     // const { images = [ img1, img2, img3 ] } = props;
-    const { images = [ image01, image02, image03 ] } = props;
-    const { variantId = 'gid://shopify/ProductVariant/46085726306461' } = props;
+    const { images = [ image01 ] } = props;
+    const { variantId = 'gid://shopify/ProductVariant/46075169931421' } = props;
 
     const [selectedImage, setSelectedImage] = useState(0);
     const [selectedImage2, setSelectedImage2] = useState(0);
