@@ -6,6 +6,7 @@ import { IoLogOutOutline } from "react-icons/io5";
 import { RiCloseLine } from "react-icons/ri";
 import { TbExternalLink } from "react-icons/tb";
 import Payment from './payment-integration/Payment';
+import { ShopPayButton } from './common';
 
 const BackDrop = ({ isOpen, setIsOpen }) => {
 
@@ -185,7 +186,7 @@ const SideBarRight = (props) => {
 
 const AddToCart = (props) => {
 
-    const { setIsOpen2, isOpen2, product_title, price, images } = props;
+    const { setIsOpen2, isOpen2, product_title, price, images, variantId } = props;
     const [count, setCount] = useState(2)
 
     const increment = () => setCount(prev => prev + 1)
@@ -244,7 +245,9 @@ const AddToCart = (props) => {
                                 ADD TO CART
                             </button> */}
 
-                            <div className='bg-gray-200 p-3 flex justify-center'>Shop Pay button will come here</div>
+                            <ShopPayButton productId={variantId} quantity={count} />
+
+                            {/* <div className='bg-gray-200 p-3 flex justify-center'>Shop Pay button will come here</div> */}
 
                             <p className="text-sm text-gray-600 text-center">
                                 free shipping on all orders!
@@ -283,10 +286,18 @@ const ProductCart = (props) => {
 
     const { tagline = 'The best drink for fall' } = props;
     const { announcement = 'FREE SHIPPING FOR HALLOWEEN' } = props;
-    const { product_title = 'botanical soda variety (18 pack)' } = props;
+    const { product_title = 'still & sparkling variety (18 pack)' } = props;
     const { sub_title = 'Halloween, Thanksgiving, and Fall will never be the same.' } = props;
-    const { price = '20', description = 'Description will come soon.' } = props;
-    const { images = [ img1, img2, img3 ] } = props;
+    const { price = '54', description = 'Find your favorite flavor of calm with our bestselling still and sparkling flavors. Refreshing fruits like juicy plums, Meyer lemon, delicious blueberries, floral lychees, refreshing blood orange, and bright black cherries Natural botanicals such as ginger, hibiscus, rhubarb, and jasmine Adaptogens such as L-theanine, ashwagandha, ginseng, and tulsi' } = props;
+
+    const image01 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/websitePDPphotos.png?v=1729596554';
+    const image02 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/websitePDPphotos_7f5dde33-cd53-4439-a547-eae8bfd0d2eb.png?v=1729596554';
+    const image03 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/15-20calories_82318b4b-6bec-405c-8377-94924ef51b8d.png?v=1729596554';
+    const image04 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/1_f307201d-ae69-4916-8dbc-d59fdec8a726.png?v=1729596554';
+    const image05 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/2_9ef2c7d4-500e-4ce3-b471-35fcbd54628f.png?v=1729596554';
+
+    const { images = [ image01, image02, image03, image04, image05 ] } = props;
+    const { variantId = 'gid://shopify/ProductVariant/46085726306461' } = props;
 
     const [selectedImage, setSelectedImage] = useState(0);
     const [selectedImage2, setSelectedImage2] = useState(0);
@@ -307,11 +318,11 @@ const ProductCart = (props) => {
 
             <BackDrop isOpen={isOpen} setIsOpen={setIsOpen} />
 
-            <BackDrop isOpen={isOpen2} setIsOpen={setIsOpen2} />
+            {/* <BackDrop isOpen={isOpen2} setIsOpen={setIsOpen2} /> */}
 
             <SideBarRight product_title={product_title} description={description} price={price} isOpen={isOpen} setIsOpen={setIsOpen} images={images} selectedImage2={selectedImage2} setSelectedImage2={setSelectedImage2} activeTab={activeTab} setActiveTab={setActiveTab} purchaseOption2={purchaseOption2} setPurchaseOption2={setPurchaseOption2} />
 
-            <AddToCart isOpen2={isOpen2} setIsOpen2={setIsOpen2} product_title={product_title} price={price} images={images} />
+            {/* <AddToCart variantId={variantId} isOpen2={isOpen2} setIsOpen2={setIsOpen2} product_title={product_title} price={price} images={images} /> */}
 
             {/* Announcement Banner */}
             {announcement !== '' && <div className="w-full bg-[#ffff99] uppercase p-2 text-center text-sm font-medium">
@@ -410,11 +421,13 @@ const ProductCart = (props) => {
                         </div>
 
                         {/* Add to Cart Button */}
-                        <button onClick={handleCart} className="w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
+                        {/* <button onClick={handleCart} className="w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
                             hover:bg-pink-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                             Add to cart
-                        </button>
+                        </button> */}
+
+                        <ShopPayButton variantId={variantId} />
 
                         <Payment />
 

@@ -11,51 +11,6 @@ import Divider from '@mui/material/Divider';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import Loader from './common/loader';
-// import {gql} from '@shopify/hydrogen-react';
-
-// export const GET_PRODUCTS_QUERY =`
-// query {
-//   products(first: 10) {
-//     edges {
-//       node {
-//         id
-//         title
-//         descriptionHtml
-//         vendor
-//         productType
-//         createdAt
-//         updatedAt
-//         variants(first: 5) {
-//           edges {
-//             node {
-//               id
-//               title
-//               priceV2 {
-//                 amount
-//                 currencyCode
-//               }
-//               sku
-//               availableForSale
-//               image {
-//                 src
-//                 altText
-//               }
-//             }
-//           }
-//         }
-//         images(first: 5) {
-//           edges {
-//             node {
-//               src
-//               altText
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-// `;
 
 
 const Middleware = () => {
@@ -67,7 +22,8 @@ const Middleware = () => {
         product_title: '',
         announcement: '',
         description: '',
-        price: ''
+        price: '',
+        variant_id: ''
     });
 
     const [ productItem, setProductItem ] = useState('');
@@ -79,8 +35,6 @@ const Middleware = () => {
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [ showLoader, setShowLoader ] = useState(false);
-    // const {product, variants, setSelectedVariant} = useProduct();
-
 
     useEffect(() => {
 
@@ -135,7 +89,7 @@ const Middleware = () => {
     const handleReset = () => {
 
         setFiles([]);
-        setFormData({ tagline: '', subtitle: '', product_title: '', price: '', announcement: '', description: '' });
+        setFormData({ tagline: '', subtitle: '', product_title: '', price: '', announcement: '', description: '', variant_id: '' });
         setFormEmpty(true);
 
     }
@@ -168,7 +122,7 @@ const Middleware = () => {
             const response = await axios.get(`http://54.162.201.2:8000/api/products/${productItem}`);
             const result = response.data.product;
             console.log(result);
-            setFormData({ ...formData, product_title: result.title, price: result.price, description: result.description })
+            setFormData({ ...formData, product_title: result.title, price: result.price, description: result.description, variant_id: result.variant_id })
             setFiles(result.images);
 
         } catch (e) {
@@ -206,7 +160,6 @@ const Middleware = () => {
                                             showLoader ?
                                             <button className='bg-blue-700 cursor-wait w-full opacity-50 text-white p-4 rounded-md'><Loader color='#ffffff' /></button> :
                                             <button onClick={handleFetchProduct} className='bg-blue-700 w-full hover:bg-blue-800 transition-all duration-150 text-white p-4 rounded-md'>Fetch Details</button>
-
                                         }
                                     </Grid2>
                                 </Grid2>
@@ -290,7 +243,7 @@ const Middleware = () => {
 
                 <div className='md:w-1/2 border rounded-md'>
                     {!isFormEmpty && <div className='overflow-y-auto overflow-x-hidden m-1 border h-[99%] w-[98.5%]'>
-                        <ProductCart tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} />
+                        <ProductCart variantId={formData.variant_id} productItem={productItem} tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} />
                     </div>}
                 </div>
 

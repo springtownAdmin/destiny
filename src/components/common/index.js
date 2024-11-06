@@ -5,3 +5,4 @@ export { default as Ingridients } from './ingridients';
 export { default as ProductAd } from './product-ad';
 export { default as RewardsBenefits } from './rewards-benefits';
 export { default as TopReviews } from './top-reviews';
+export { default as ShopPayButton } from './shop-pay-btn';
