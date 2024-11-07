@@ -19,10 +19,10 @@ const CheckoutForm = ({ price = 20.00, product_title = 'Total' }) => {
         country: 'US',
         currency: 'usd',
         total: {
-          label: product_title,
-          // label: 'Total',
-          amount: Math.round(parseFloat(price) * 100), // amount in cents
-          // amount: 100, // amount in cents
+          // label: product_title,
+          label: 'Total',
+          // amount: Math.round(parseFloat(price) * 100), // amount in cents
+          amount: 100, // amount in cents
         },
         requestPayerName: true,
         requestPayerEmail: true,
