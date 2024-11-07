@@ -22,7 +22,7 @@ const CheckoutForm = ({ price = 20.00, product_title = 'Total' }) => {
           // label: product_title,
           label: 'Total',
           // amount: Math.round(parseFloat(price) * 100), // amount in cents
-          amount: 100, // amount in cents
+          amount: 2000, // amount in cents
         },
         requestPayerName: true,
         requestPayerEmail: true,
