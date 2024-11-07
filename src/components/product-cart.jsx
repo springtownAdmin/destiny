@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import img1 from '/images/prod-1.webp';
-import img2 from '/images/prod-2.webp';
-import img3 from '/images/prod-3.webp';
 import { IoLogOutOutline } from "react-icons/io5";
 import { RiCloseLine } from "react-icons/ri";
 import { TbExternalLink } from "react-icons/tb";
@@ -298,9 +295,10 @@ const ProductCart = (props) => {
 
     const image01 = "https://cdn.shopify.com/s/files/1/0690/0468/9565/files/blueshirt.jpg?v=1729298939"
 
-    // const { images = [ img1, img2, img3 ] } = props;
     const { images = [ image01 ] } = props;
+    // const { images = [ image01, image02, image03, image04, image05 ] } = props;
     const { variantId = 'gid://shopify/ProductVariant/46075169931421' } = props;
+    // const { variantId = "gid://shopify/ProductVariant/46085726306461" } = props;
 
     const [selectedImage, setSelectedImage] = useState(0);
     const [selectedImage2, setSelectedImage2] = useState(0);
@@ -358,7 +356,7 @@ const ProductCart = (props) => {
                         </div>
 
                         {/* Thumbnail Images */}
-                        <div className="flex gap-2 overflow-x-auto pb-2">
+                        <div className="flex gap-2 overflow-x-auto pb-2 w-[330px] md:w-auto">
                             {images.map((image, index) => (
                                 <button
                                     key={index}
@@ -432,7 +430,7 @@ const ProductCart = (props) => {
 
                         <ShopPayButton variantId={variantId} />
 
-                        <Payment />
+                        <Payment price={parseFloat(price)} product_title={product_title} />
 
                     </div>
 

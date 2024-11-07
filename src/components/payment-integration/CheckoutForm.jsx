@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { PaymentRequestButtonElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ price = 20.00, product_title = 'Total' }) => {
+
   const stripe = useStripe();
   const elements = useElements();
   const [paymentRequest, setPaymentRequest] = useState(null);
@@ -10,31 +11,37 @@ const CheckoutForm = () => {
 
   useEffect(() => {
 
+    if (!stripe || !elements) return;
+
     if (stripe) {
       
       const request = stripe.paymentRequest({
         country: 'US',
         currency: 'usd',
         total: {
-          label: 'Total',
-          amount: 2000, // amount in cents
+          label: product_title,
+          // label: 'Total',
+          amount: Math.round(parseFloat(price) * 100), // amount in cents
+          // amount: 100, // amount in cents
         },
         requestPayerName: true,
         requestPayerEmail: true,
-        // requestShipping: true, // Request shipping details
+        requestShipping: true, // Request shipping details
       });
 
       // Check if the Payment Request is supported
       request.canMakePayment().then((result) => {
+
         if (result) {
           setPaymentRequest(request);
         } else {
           console.error('Payment Request not supported');
         }
+
       });
 
       request.on('token', async (event) => {
-        const { token, shipping } = event; // Get shipping details
+        const { token, shippingAddress } = event; // Get shipping details
 
         try {
           // Send the token and shipping details to your server for processing
@@ -43,7 +50,7 @@ const CheckoutForm = () => {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ token: token.id, shipping }),
+            body: JSON.stringify({ token: token.id, shippingAddress }),
           });
 
           const data = await response.json();
@@ -74,7 +81,7 @@ const CheckoutForm = () => {
       });
     }
 
-  }, [stripe]);
+  }, [stripe, elements]);
 
   return (
     <div>

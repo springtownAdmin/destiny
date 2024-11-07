@@ -63,6 +63,16 @@ const Middleware = () => {
 
     const handleChange = (e) => {
 
+        const key = e.target.name;
+        const value = e.target.value;
+
+        // if (key === 'product_title' || key === 'price' ) {
+
+        //     if (value === '') setFormEmpty(false);
+        //     console.log({ key, value })
+
+        // }
+
         setFormData({ ...formData, [e.target.name]: e.target.value });
 
     }
@@ -96,7 +106,6 @@ const Middleware = () => {
 
     const handleProducts = (e) => {
 
-        console.log(e.target.value);
         setProductItem(e.target.value);
 
     }
@@ -110,7 +119,7 @@ const Middleware = () => {
             if (formData.product_title !== '' && formData.price !== '')
                 setFormEmpty(false);
 
-        },2000);
+        },500);
 
     }
 
@@ -123,6 +132,7 @@ const Middleware = () => {
             const result = response.data.product;
             console.log(result);
             setFormData({ ...formData, product_title: result.title, price: result.price, description: result.description, variant_id: result.variant_id })
+            // setFormEmpty(false);
             setFiles(result.images);
 
         } catch (e) {
@@ -228,8 +238,8 @@ const Middleware = () => {
                                                 <button className='p-3 gap-2 border rounded-md border-black opacity-50 w-[100px] cursor-wait'>
                                                     <Loader color='#000000' />
                                                 </button>
-                                                : <button className='p-3 flex items-center gap-2 border rounded-md border-black hover:bg-black hover:text-white transition-colors duration-150'>
-                                                    <span className='flex items-center gap-2' onClick={handleGenerate}>Generate site <WiStars size={25} /></span>
+                                                : <button disabled={formData.product_title === '' || formData.price === ''} onClick={handleGenerate} className={`p-3 flex items-center gap-2 border rounded-md ${formData.product_title === '' || formData.price === '' ? 'opacity-50 cursor-not-allowed' : 'hover:bg-black hover:text-white transition-colors duration-150'} border-black`}>
+                                                    <span className='flex items-center gap-2'>Generate site <WiStars size={25} /></span>
                                                 </button>
                                             }
                                         </div>
