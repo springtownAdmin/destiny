@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PaymentRequestButtonElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-const CheckoutForm = ({ price = 20.00, product_title = 'Total' }) => {
+const CheckoutForm = () => {
 
   const stripe = useStripe();
   const elements = useElements();
@@ -19,14 +19,22 @@ const CheckoutForm = ({ price = 20.00, product_title = 'Total' }) => {
         country: 'US',
         currency: 'usd',
         total: {
-          // label: product_title,
           label: 'Total',
-          // amount: Math.round(parseFloat(price) * 100), // amount in cents
           amount: 2000, // amount in cents
         },
         requestPayerName: true,
         requestPayerEmail: true,
         requestShipping: true, // Request shipping details
+        shippingOptions: [
+          // The first shipping option in this list appears as the default
+          // option in the browser payment interface.
+          {
+            id: 'free-shipping',
+            label: 'Free shipping',
+            detail: 'Arrives in 5 to 7 days',
+            amount: 0,
+          },
+        ],
       });
 
       // Check if the Payment Request is supported
@@ -41,7 +49,7 @@ const CheckoutForm = ({ price = 20.00, product_title = 'Total' }) => {
       });
 
       request.on('token', async (event) => {
-        const { token, shippingAddress } = event; // Get shipping details
+        const { token } = event; // Get shipping details
 
         try {
           // Send the token and shipping details to your server for processing
@@ -50,7 +58,7 @@ const CheckoutForm = ({ price = 20.00, product_title = 'Total' }) => {
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ token: token.id, shippingAddress }),
+            body: JSON.stringify({ token: token.id }),
           });
 
           const data = await response.json();
@@ -75,9 +83,28 @@ const CheckoutForm = ({ price = 20.00, product_title = 'Total' }) => {
       });
 
       // Handle shipping address updates
-      request.on('shippingaddresschange', (event) => {
+      request.on('shippingaddresschange', async (event) => {
         // Update total amount or handle shipping address change logic if necessary
-        event.updateWith({ status: 'success' }); // Always mark as success for this example
+        // event.updateWith({ status: 'success' }); // Always mark as success for this example
+
+        if (event.shippingAddress.country !== 'US') {
+          event.updateWith({status: 'invalid_shipping_address'});
+        } else {
+          // Perform server-side request to fetch shipping options
+          const response = await fetch('/calculateShipping', {
+            data: JSON.stringify({
+              shippingAddress: event.shippingAddress
+            })
+          });
+          const result = await response.json();
+      
+          event.updateWith({
+            status: 'success',
+            shippingOptions: result.supportedShippingOptions,
+          });
+        }
+
+
       });
     }
 

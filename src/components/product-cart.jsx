@@ -430,7 +430,7 @@ const ProductCart = (props) => {
 
                         <ShopPayButton variantId={variantId} />
 
-                        <Payment price={parseFloat(price)} product_title={product_title} />
+                        <Payment />
 
                     </div>
 

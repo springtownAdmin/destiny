@@ -3,7 +3,7 @@ import { Elements, PaymentRequestButtonElement } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 
-function Payment({ price = 20.00, product_title = 'Total' }) {
+function Payment() {
 
   const [stripePromise, setStripePromise] = useState(null);
 
@@ -19,7 +19,7 @@ function Payment({ price = 20.00, product_title = 'Total' }) {
 
   return (
     <Elements stripe={stripePromise}>
-      <CheckoutForm price={price} product_title={product_title} />
+      <CheckoutForm />
     </Elements>
   );
 
