@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Elements, PaymentRequestButtonElement } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
+import CheckoutFormTest from "./CheckoutFromTest";
 
 function Payment() {
 
@@ -19,7 +20,8 @@ function Payment() {
 
   return (
     <Elements stripe={stripePromise}>
-      <CheckoutForm />
+      {/* <CheckoutForm /> */}
+      <CheckoutFormTest />
     </Elements>
   );
 
