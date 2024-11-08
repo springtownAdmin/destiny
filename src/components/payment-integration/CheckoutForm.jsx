@@ -20,7 +20,7 @@ const CheckoutForm = () => {
         currency: 'usd',
         total: {
           label: 'Total',
-          amount: 2000, // amount in cents
+          amount: 100, // amount in cents
         },
         requestPayerName: true,
         requestPayerEmail: true,
@@ -90,18 +90,46 @@ const CheckoutForm = () => {
         if (event.shippingAddress.country !== 'US') {
           event.updateWith({status: 'invalid_shipping_address'});
         } else {
+
           // Perform server-side request to fetch shipping options
-          const response = await fetch('/calculateShipping', {
-            data: JSON.stringify({
-              shippingAddress: event.shippingAddress
-            })
-          });
-          const result = await response.json();
+          // const response = await fetch('/calculateShipping', {
+          //   data: JSON.stringify({
+          //     shippingAddress: event.shippingAddress
+          //   })
+          // });
+          // const result = await response.json();
       
-          event.updateWith({
-            status: 'success',
-            shippingOptions: result.supportedShippingOptions,
-          });
+          // event.updateWith({
+          //   status: 'success',
+          //   shippingOptions: result.supportedShippingOptions,
+          // });
+
+          event.updateWith(
+            fetch('https://destiny-server-nhyk.onrender.com/calculateShipping', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                shippingAddress: event.shippingAddress
+              }),
+            })
+            .then(response => response.json())
+            .then(result => {
+              // Return the updated payment details
+              return {
+                status: 'success',
+                shippingOptions: result.supportedShippingOptions,
+                total: result.total,
+                displayItems: result.displayItems,
+              };
+            })
+            .catch(error => {
+              console.error(error);
+              return { status: 'fail' };
+            })
+          );
+
         }
 
 
