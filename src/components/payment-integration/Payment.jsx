@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Elements, PaymentRequestButtonElement } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
+import { Oval } from "react-loader-spinner";
 
 // const stripePromise = loadStripe(import.env.VITE_STRIPE_KEY)
 
@@ -41,7 +42,20 @@ const Payment = ({ productId, amount, product_title }) => {
 
   if (!stripePromise) {
 
-    return (<div className="flex justify-center items-center h-full">Loading...</div>)
+    return (
+    
+        <div className="flex justify-center items-center">
+            <Oval
+                visible={true}
+                height="30"
+                width="30"
+                color="#000000"
+                ariaLabel="oval-loading"
+                secondaryColor="lightgray"
+            />
+        </div>
+    
+    )
 
   }
 
