@@ -27,7 +27,7 @@ const CheckoutForm = ({ amount = 1, productId = '847704899599' }) => {
         displayItems: [
           {
             label: 'Shirt',
-            amount: 2000
+            amount: 1000
           }
         ],
         requestPayerName: true,
@@ -100,6 +100,30 @@ const CheckoutForm = ({ amount = 1, productId = '847704899599' }) => {
             ev.updateWith({ status: 'fail' });
           }
         }
+      });
+
+       // Handle shipping option changes
+      pr.on('shippingoptionchange', (event) => {
+        const selectedShippingOption = event.shippingOption.id;
+
+        // if (selectedShippingOption === 'express-shipping') {
+        //   newTotal += 1500; // Add express shipping cost
+        // }
+
+        event.updateWith({
+          status: 'success',
+          total: {
+            label: 'Total',
+            amount: amount * 100,
+          },
+          displayItems: [
+            {
+              label: 'Shirt',
+              amount: 1000
+            }
+          ],
+        });
+        
       });
 
     }
