@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useStripe, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 import axios from 'axios';
 
-const CheckoutForm = ({ amount = 1 }) => {
+const CheckoutForm = ({ amount = 1, productId = '847704899599' }) => {
 
   const stripe = useStripe();
   const [paymentRequest, setPaymentRequest] = useState(null);
@@ -14,7 +14,7 @@ const CheckoutForm = ({ amount = 1 }) => {
 
     if (stripe) {
 
-      console.log('checkoutfromtest - ', amount);
+      console.log({ amount, productId });
 
       // Set up the payment request with Stripe
       const pr = stripe.paymentRequest({
@@ -24,6 +24,12 @@ const CheckoutForm = ({ amount = 1 }) => {
           label: 'Total',
           amount: amount * 100, // Default amount in cents, update as needed
         },
+        displayItems: [
+          {
+            label: 'Shirt',
+            amount: 2000
+          }
+        ],
         requestPayerName: true,
         requestPayerEmail: true,
         requestShipping: true,

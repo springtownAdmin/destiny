@@ -193,7 +193,7 @@ const Middleware = () => {
                                             <TextField disabled={productItem === ''} name='product_title' fullWidth value={formData.product_title} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Product title" variant="outlined" />
                                         </Grid2>
                                         <Grid2 size={{ xs: 12, md: 6 }}>
-                                            <TextField disabled={productItem === ''} name='price' type='number' fullWidth value={formData.price} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Price ($)" variant="outlined" />
+                                            <TextField disabled name='price' type='number' fullWidth value={formData.price} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Price ($)" variant="outlined" />
                                         </Grid2>
                                     </Grid2>
                                     

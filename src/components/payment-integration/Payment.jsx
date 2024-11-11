@@ -3,13 +3,14 @@ import { Elements, PaymentRequestButtonElement } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 
-const Payment = ({ amount }) => {
+// const stripePromise = loadStripe(import.env.VITE_STRIPE_KEY)
+
+const Payment = ({ productId = '847704899599', amount = 1 }) => {
 
   const [stripePromise, setStripePromise] = useState(null);
 
   useEffect(() => {
         
-    console.log(amount)
         // Load the Stripe object with the publishable key
         fetch("https://destiny-server-nhyk.onrender.com/config").then(async (r) => {
           const { publishableKey } = await r.json();
@@ -20,7 +21,7 @@ const Payment = ({ amount }) => {
 
   return (
     <Elements stripe={stripePromise}>
-      <CheckoutForm amount={amount} />
+      <CheckoutForm productId={productId} amount={amount} />
     </Elements>
   );
 

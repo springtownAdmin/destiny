@@ -296,6 +296,7 @@ const ProductCart = (props) => {
     const image01 = "https://cdn.shopify.com/s/files/1/0690/0468/9565/files/blueshirt.jpg?v=1729298939"
 
     const { images = [ image01 ] } = props;
+    const { productItem = "gid://shopify/Product/8477048995997" } = props;
     // const { images = [ image01, image02, image03, image04, image05 ] } = props;
     const { variantId = 'gid://shopify/ProductVariant/46075169931421' } = props;
     // const { variantId = "gid://shopify/ProductVariant/46085726306461" } = props;
@@ -430,7 +431,7 @@ const ProductCart = (props) => {
 
                         <ShopPayButton variantId={variantId} />
 
-                        <Payment amount={54} />
+                        <Payment productId={productItem} amount={parseFloat(price).toFixed(2)} />
 
                     </div>
 
