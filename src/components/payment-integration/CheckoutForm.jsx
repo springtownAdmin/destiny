@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useStripe, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 import axios from 'axios';
 
-const CheckoutForm = ({ amount = 1, productId = '847704899599' }) => {
+const CheckoutForm = ({ amount, productId, product_title }) => {
 
   const stripe = useStripe();
   const [paymentRequest, setPaymentRequest] = useState(null);
@@ -12,7 +12,7 @@ const CheckoutForm = ({ amount = 1, productId = '847704899599' }) => {
 
   useEffect(() => {
 
-    if (stripe) {
+    if (stripe && product_title && amount) {
 
       console.log({ amount, productId });
 
@@ -26,8 +26,8 @@ const CheckoutForm = ({ amount = 1, productId = '847704899599' }) => {
         },
         displayItems: [
           {
-            label: 'Shirt',
-            amount: 1000
+            label: product_title,
+            amount: amount * 100
           }
         ],
         requestPayerName: true,
@@ -118,12 +118,12 @@ const CheckoutForm = ({ amount = 1, productId = '847704899599' }) => {
           },
           displayItems: [
             {
-              label: 'Shirt',
-              amount: 1000
+              label: product_title,
+              amount: amount * 100
             }
           ],
         });
-        
+
       });
 
     }
