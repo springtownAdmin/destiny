@@ -11,7 +11,7 @@ const Payment = ({ amount }) => {
         
     console.log(amount)
         // Load the Stripe object with the publishable key
-        fetch("http://54.162.201.2:8000/config").then(async (r) => {
+        fetch("https://destiny-server-nhyk.onrender.com/config").then(async (r) => {
           const { publishableKey } = await r.json();
           setStripePromise(loadStripe(publishableKey));
         });

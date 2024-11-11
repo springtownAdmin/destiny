@@ -41,7 +41,7 @@ const CheckoutForm = ({ amount = 1 }) => {
       pr.on('paymentmethod', async (event) => {
         try {
           // Call backend to create PaymentIntent and get clientSecret
-          const { data } = await axios.post('http://54.162.201.2:8000/create-payment-intent', {
+          const { data } = await axios.post('https://destiny-server-nhyk.onrender.com/create-payment-intent', {
             amount: amount, // Pass the amount in cents
             currency: 'usd',
           });
@@ -74,7 +74,7 @@ const CheckoutForm = ({ amount = 1 }) => {
           try {
             // Request shipping options from the backend
             const response = await axios.post(
-              'http://54.162.201.2:8000/calculateShipping',
+              'https://destiny-server-nhyk.onrender.com/calculateShipping',
               {
                 shippingAddress: ev.shippingAddress,
               },
