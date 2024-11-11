@@ -28,7 +28,7 @@ const SideBarRight = (props) => {
 
     return (
         <>
-            <div className={`absolute right-0 top-0 h-full w-full md:w-[480px] bg-white z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+            <div className={`absolute right-0 top-0 h-full w-full md:w-[480px] bg-white z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto scrollbar-hide ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
                     
                 {/* Header */}
                 <div className="sticky top-0 z-10 flex items-center justify-between p-4 bg-white border-b">
@@ -47,7 +47,7 @@ const SideBarRight = (props) => {
                 <div className="p-4 space-y-6">
                     
                     {/* Main Image */}
-                    <div className="bg-[#e75d8e] rounded-lg overflow-hidden">
+                    <div className="bg-[#e75d8e] scrollbar-hide rounded-lg overflow-hidden">
                         <div className="relative aspect-square">
                             <img
                                 src={images[selectedImage2]}
@@ -58,7 +58,7 @@ const SideBarRight = (props) => {
                     </div>
 
                     {/* Thumbnails */}
-                    <div className="flex gap-2 overflow-x-auto pb-2">
+                    <div className="flex gap-2 scrollbar-hide overflow-x-auto pb-2">
                         {images.map((image, index) => (
                         <button
                             key={index}
@@ -315,7 +315,7 @@ const ProductCart = (props) => {
     }
   
     return (
-        <div className="min-h-screen bg-white relative overflow-x-hidden">
+        <div className="min-h-screen bg-white relative overflow-x-hidden scrollbar-hide">
 
             <BackDrop isOpen={isOpen} setIsOpen={setIsOpen} />
 
@@ -345,7 +345,7 @@ const ProductCart = (props) => {
 
                     {/* Product Images */}
                     <div className="space-y-4">
-                        <div className="bg-[#e75d8e] rounded-lg overflow-hidden">
+                        <div className="bg-[#e75d8e] rounded-lg overflow-hidden scrollbar-hide">
                             <div className="relative aspect-square" onClick={() => setIsOpen(true)}>
                                 <img
                                     src={images[selectedImage]}
@@ -356,12 +356,12 @@ const ProductCart = (props) => {
                         </div>
 
                         {/* Thumbnail Images */}
-                        <div className="flex gap-2 overflow-x-auto pb-2 w-[330px] md:w-auto">
+                        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 w-[330px] md:w-auto">
                             {images.map((image, index) => (
                                 <button
                                     key={index}
                                     onClick={() => setSelectedImage(index)}
-                                    className={`relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-colors duration-200 
+                                    className={`relative w-24 h-24 flex-shrink-0 rounded-lg scrollbar-hide overflow-hidden border-2 transition-colors duration-200 
                                         ${selectedImage === index ? 'border-[#e75d8e]' : 'border-gray-200'}`}
                                     aria-label={`View product image ${index + 1}`}
                                 >
@@ -430,7 +430,7 @@ const ProductCart = (props) => {
 
                         <ShopPayButton variantId={variantId} />
 
-                        <Payment />
+                        <Payment amount={54} />
 
                     </div>
 

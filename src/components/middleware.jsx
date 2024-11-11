@@ -11,6 +11,7 @@ import Divider from '@mui/material/Divider';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import Loader from './common/loader';
+import Preview, { IPhonePreview } from './iphone-preview';
 
 
 const Middleware = () => {
@@ -252,9 +253,16 @@ const Middleware = () => {
                 </div>
 
                 <div className='md:w-1/2 border rounded-md'>
-                    {!isFormEmpty && <div className='overflow-y-auto overflow-x-hidden m-1 border h-[99%] w-[98.5%]'>
+                    {!isFormEmpty ? <div className='overflow-y-auto overflow-x-hidden m-1 border h-[99%] w-[98.5%]'>
                         <ProductCart variantId={formData.variant_id} productItem={productItem} tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} />
-                    </div>}
+                    </div> : <div className='text-red-500 flex justify-center items-center h-full'>No Preview</div>}
+                    
+                    {/* <IPhonePreview>
+                        {!isFormEmpty ? <div className='overflow-y-auto overflow-x-hidden scrollbar-hide m-1 border h-[99%] w-[98.5%]'>
+                            <ProductCart variantId={formData.variant_id} productItem={productItem} tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} />
+                        </div> : <div className='text-red-500 flex justify-center items-center h-full'>No Preview</div>}
+                    </IPhonePreview> */}
+
                 </div>
 
             </div>

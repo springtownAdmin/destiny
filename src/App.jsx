@@ -6,7 +6,7 @@ import ProductCart from './components/product-cart';
 import Middleware from './components/middleware';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {createStorefrontClient} from '@shopify/hydrogen-react';
+import { createStorefrontClient } from '@shopify/hydrogen-react';
 
 // export const client = createStorefrontClient({
 //   // load environment variables according to your framework and runtime
@@ -18,23 +18,23 @@ const Extra = () => {
 
   return (
     <>
-              <Header />
+        <Header />
 
-              <div className='pt-[80px] container mx-auto px-4'>
+        <div className='pt-[80px] container mx-auto px-4'>
 
-                <HeroProduct />
+          <HeroProduct />
 
-                <Ingridients />
+          <Ingridients />
 
-                <ProductAd />
+          <ProductAd />
 
-                <TopReviews />
+          <TopReviews />
 
-                <RewardsBenefits />
-                
-              </div>
+          <RewardsBenefits />
+          
+        </div>
 
-              <Footer />
+        <Footer />
     </>
   )
 }
@@ -47,8 +47,8 @@ export default function App() {
     
       <div className='relative w-full'>
 
-        <ProductCart />
-        {/* <Middleware /> */}
+        {/* <ProductCart /> */}
+        <Middleware />
 
         <ToastContainer />
       </div>

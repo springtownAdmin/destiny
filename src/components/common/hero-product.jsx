@@ -6,9 +6,6 @@ import prodImg1 from '/images/product-juice-1.webp';
 import prodImg2 from '/images/product-juice-2.webp';
 import prodImg3 from '/images/product-juice-3.webp';
 import prodImg4 from '/images/product-juice-4.webp';
-// import { Elements } from '@stripe/react-stripe-js';
-// import { loadStripe } from '@stripe/stripe-js';
-// import { useStripe, useElements, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 
 const productImages = [
     prodImg1,
@@ -17,73 +14,15 @@ const productImages = [
     prodImg4
 ]
 
-// const stripePromise = loadStripe('pk_test_51QBRpFICvmtDwewB0gmIXj01IEfYCvQYUEenHW2tb8fRfKdKwmREn33Xf4ElmKaBGZuNxDwNROk8LONdXAZVxEvY00PDuF8jgW');
-
 
 export default function HeroProduct() {
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  // const stripe = useStripe();
   const [paymentRequest, setPaymentRequest] = useState(null);
   const [paymentRequestAvailable, setPaymentRequestAvailable] = useState(false);
 
   const [count, setCount] = useState(1);
   const price = 40;
-
-  // useEffect(() => {
-  //   if (stripe) {
-  //     const pr = stripe.paymentRequest({
-  //       country: 'US',
-  //       currency: 'usd',
-  //       total: {
-  //         label: 'Sample Product',
-  //         amount: 1000, // Amount in cents ($10.00)
-  //       },
-  //       requestPayerName: true,
-  //       requestPayerEmail: true,
-  //     });
-
-  //     pr.on('token', async (e) => {
-  //       const { clientSecret } = await fetch('https://destiny-server-nhyk.onrender.com/create-product-and-checkout-session', {
-  //         method: 'POST',
-  //         headers: {
-  //           'Content-Type': 'application/json',
-  //         },
-  //         body: JSON.stringify({
-  //           paymentMethodType: 'card',
-  //           amount: 1000,
-  //           currency: 'usd',
-  //           name: 'Sample Product',
-  //           description: 'Description here',
-  //         }),
-  //       }).then(r => r.json());
-
-  //       const { error, paymentIntent } = await stripe.confirmCardPayment(
-  //         clientSecret, 
-  //         { payment_method: e.paymentMethod.id }, 
-  //         { handleActions: false }
-  //       );
-
-  //       if (error) {
-  //         e.complete('fail');
-  //       } else {
-  //         e.complete('success');
-  //         if (paymentIntent.status === 'requires_action') {
-  //           await stripe.confirmCardPayment(clientSecret);
-  //         }
-  //       }
-  //     });
-
-  //     pr.canMakePayment().then((result) => {
-  //       if (result) {
-  //         setPaymentRequest(pr);
-  //         setPaymentRequestAvailable(true);
-  //       } else {
-  //         setPaymentRequestAvailable(false);
-  //       }
-  //     });
-  //   }
-  // }, [stripe]);
 
   const nextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % productImages.length)
@@ -175,13 +114,6 @@ export default function HeroProduct() {
                 </div>
                 <span className="text-xl font-bold">${price * count}</span>
             </div>
-            {/* <Elements stripe={stripePromise}> */}
-
-            {/* {paymentRequestAvailable ? (
-              <PaymentRequestButtonElement options={{ paymentRequest }} />
-            ) : (
-              <p>Apple Pay is not available on this device.</p>
-            )} */}
             
               <button className="w-full bg-pink-400 text-white py-3 rounded-full text-lg font-bold mb-2">
                   ADD TO CART
