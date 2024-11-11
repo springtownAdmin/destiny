@@ -162,7 +162,7 @@ const Middleware = () => {
                                     <Grid2 size={{ xs: 12, md: 8 }}>
                                         <TextField id="select" label="Products" disabled={products.length === 0} value={productItem} onChange={handleProducts} select fullWidth>
                                             {products.map((x) => (
-                                                <MenuItem value={x.key}>{x.title}</MenuItem>
+                                                <MenuItem key={x.key} value={x.key}>{x.title}</MenuItem>
                                             ))}
                                         </TextField>
                                     </Grid2>
