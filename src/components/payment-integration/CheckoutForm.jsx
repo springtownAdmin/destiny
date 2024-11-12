@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useStripe, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 import axios from 'axios';
 
-const CheckoutForm = ({ amount, productId, product_title }) => {
+const CheckoutForm = ({ amount = 1, productId, product_title }) => {
 
   const stripe = useStripe();
   const [paymentRequest, setPaymentRequest] = useState(null);
@@ -12,7 +12,7 @@ const CheckoutForm = ({ amount, productId, product_title }) => {
 
   useEffect(() => {
 
-    if (stripe && product_title && amount) {
+    if (stripe || amount || product_title) {
 
       console.log({ amount, productId });
 
@@ -103,28 +103,28 @@ const CheckoutForm = ({ amount, productId, product_title }) => {
       });
 
        // Handle shipping option changes
-      pr.on('shippingoptionchange', (event) => {
-        const selectedShippingOption = event.shippingOption.id;
+      // pr.on('shippingoptionchange', (event) => {
+      //   const selectedShippingOption = event.shippingOption.id;
 
-        // if (selectedShippingOption === 'express-shipping') {
-        //   newTotal += 1500; // Add express shipping cost
-        // }
+      //   // if (selectedShippingOption === 'express-shipping') {
+      //   //   newTotal += 1500; // Add express shipping cost
+      //   // }
 
-        event.updateWith({
-          status: 'success',
-          total: {
-            label: 'Total',
-            amount: amount * 100,
-          },
-          displayItems: [
-            {
-              label: product_title,
-              amount: amount * 100
-            }
-          ],
-        });
+      //   event.updateWith({
+      //     status: 'success',
+      //     total: {
+      //       label: 'Total',
+      //       amount: amount * 100,
+      //     },
+      //     displayItems: [
+      //       {
+      //         label: product_title,
+      //         amount: amount * 100
+      //       }
+      //     ],
+      //   });
 
-      });
+      // });
 
     }
 

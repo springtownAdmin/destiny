@@ -11,26 +11,6 @@ const Payment = ({ productId, amount, product_title }) => {
   const [stripePromise, setStripePromise] = useState(null);
 
   useEffect(() => {
-
-        const fetchStripeKey = async () => {
-
-            try {
-
-                const response = await fetch('https://destiny-server-nhyk.onrender.com/config');
-                const data = await response.json();
-                const { publishableKey } = data;
-                const stripe = await loadStripe(publishableKey);
-                setStripePromise(stripe);
-
-            } catch (e) {
-
-                console.log(e);
-
-            }
-
-        }
-
-        // fetchStripeKey();
         
         // Load the Stripe object with the publishable key
         fetch("https://destiny-server-nhyk.onrender.com/config").then(async (r) => {
