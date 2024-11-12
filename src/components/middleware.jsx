@@ -16,7 +16,6 @@ import Preview, { IPhonePreview } from './iphone-preview';
 
 const Middleware = () => {
 
-
     const [ formData, setFormData ] = useState({
         tagline: '',
         subtitle: '',

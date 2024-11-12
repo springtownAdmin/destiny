@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useStripe, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 import axios from 'axios';
 
-const CheckoutForm = ({ amount = 1, productId, product_title }) => {
+const CheckoutForm = ({ amount = 0.01, productId, product_title }) => {
 
   const stripe = useStripe();
   const [paymentRequest, setPaymentRequest] = useState(null);
@@ -12,9 +12,7 @@ const CheckoutForm = ({ amount = 1, productId, product_title }) => {
 
   useEffect(() => {
 
-    if (stripe || amount || product_title) {
-
-      console.log({ amount, productId });
+    if (stripe) {
 
       // Set up the payment request with Stripe
       const pr = stripe.paymentRequest({
@@ -24,12 +22,6 @@ const CheckoutForm = ({ amount = 1, productId, product_title }) => {
           label: 'Total',
           amount: amount * 100, // Default amount in cents, update as needed
         },
-        displayItems: [
-          {
-            label: product_title,
-            amount: amount * 100
-          }
-        ],
         requestPayerName: true,
         requestPayerEmail: true,
         requestShipping: true,
@@ -74,6 +66,7 @@ const CheckoutForm = ({ amount = 1, productId, product_title }) => {
 
       // Handle shipping address change event
       pr.on('shippingaddresschange', async (ev) => {
+
         if (ev.shippingAddress.country !== 'US') {
           ev.updateWith({ status: 'invalid_shipping_address' });
         } else {
@@ -100,9 +93,10 @@ const CheckoutForm = ({ amount = 1, productId, product_title }) => {
             ev.updateWith({ status: 'fail' });
           }
         }
+
       });
 
-       // Handle shipping option changes
+      // Handle shipping option changes
       // pr.on('shippingoptionchange', (event) => {
       //   const selectedShippingOption = event.shippingOption.id;
 
