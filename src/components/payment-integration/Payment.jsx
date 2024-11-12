@@ -30,13 +30,13 @@ const Payment = ({ productId, amount, product_title }) => {
 
         }
 
-        fetchStripeKey();
+        // fetchStripeKey();
         
         // Load the Stripe object with the publishable key
-        // fetch("https://destiny-server-nhyk.onrender.com/config").then(async (r) => {
-        //   const { publishableKey } = await r.json();
-        //   setStripePromise(loadStripe(publishableKey));
-        // });
+        fetch("https://destiny-server-nhyk.onrender.com/config").then(async (r) => {
+          const { publishableKey } = await r.json();
+          setStripePromise(loadStripe(publishableKey));
+        });
 
   }, []);
 
