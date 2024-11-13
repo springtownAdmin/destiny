@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useStripe, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 import axios from 'axios';
 
-const CheckoutForm = ({ amount = 0.01, productId, product_title }) => {
+const CheckoutForm = ({ amount = 0.01, productId, product_title, quantity = 1 }) => {
 
   const stripe = useStripe();
   const [paymentRequest, setPaymentRequest] = useState(null);
@@ -40,8 +40,11 @@ const CheckoutForm = ({ amount = 0.01, productId, product_title }) => {
         try {
           // Call backend to create PaymentIntent and get clientSecret
           const { data } = await axios.post('https://destiny-server-nhyk.onrender.com/create-payment-intent', {
-            amount: amount, // Pass the amount in cents
+            amount: amount,       // Amount in cents
             currency: 'usd',
+            productId,
+            productTitles: product_title,
+            quantity,
           });
           // Confirm payment using clientSecret from the backend
           const { error } = await stripe.confirmCardPayment(data.clientSecret, {
@@ -95,30 +98,6 @@ const CheckoutForm = ({ amount = 0.01, productId, product_title }) => {
         }
 
       });
-
-      // Handle shipping option changes
-      // pr.on('shippingoptionchange', (event) => {
-      //   const selectedShippingOption = event.shippingOption.id;
-
-      //   // if (selectedShippingOption === 'express-shipping') {
-      //   //   newTotal += 1500; // Add express shipping cost
-      //   // }
-
-      //   event.updateWith({
-      //     status: 'success',
-      //     total: {
-      //       label: 'Total',
-      //       amount: amount * 100,
-      //     },
-      //     displayItems: [
-      //       {
-      //         label: product_title,
-      //         amount: amount * 100
-      //       }
-      //     ],
-      //   });
-
-      // });
 
     }
 
