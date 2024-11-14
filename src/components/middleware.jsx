@@ -12,21 +12,29 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import Loader from './common/loader';
 import Preview, { IPhonePreview } from './iphone-preview';
-
+import { PAGE_URL } from '../helper/constants';
+import { MdPublishedWithChanges } from "react-icons/md";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
+import { IoCopyOutline } from "react-icons/io5";
+import { IoCheckmarkDoneSharp } from "react-icons/io5";
 
 const Middleware = () => {
 
     const [ formData, setFormData ] = useState({
+        product_id: '',
         tagline: '',
         subtitle: '',
         product_title: '',
         announcement: '',
         description: '',
         price: '',
-        variant_id: ''
+        variant_id: '',
+        template_id: '1'
     });
 
-    const [ productItem, setProductItem ] = useState('');
     const [products, setProducts] = useState([]);
 
     const [ isFormEmpty, setFormEmpty ] = useState(true);
@@ -34,7 +42,11 @@ const Middleware = () => {
     const fileRef = useRef(null);
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [loading2, setLoading2] = useState(false);
     const [ showLoader, setShowLoader ] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [ getUrl, setUrl ] = useState('');
+    const [ copied, setCopied ] = useState(false);
 
     useEffect(() => {
 
@@ -43,6 +55,7 @@ const Middleware = () => {
             try {
 
                 const response = await axios.get('http://54.162.201.2:8000/api/products');
+                // const response = await axios.get('https://destiny-server-nhyk.onrender.com/api/products');
                 const productData = response.data.products;
 
                 const updatedProductData = productData.map((x) => ({ id: x.id, title: x.title, key: x.id.match(/(\d+)$/)[0] }))
@@ -62,16 +75,6 @@ const Middleware = () => {
     }, []);
 
     const handleChange = (e) => {
-
-        const key = e.target.name;
-        const value = e.target.value;
-
-        // if (key === 'product_title' || key === 'price' ) {
-
-        //     if (value === '') setFormEmpty(false);
-        //     console.log({ key, value })
-
-        // }
 
         setFormData({ ...formData, [e.target.name]: e.target.value });
 
@@ -99,14 +102,18 @@ const Middleware = () => {
     const handleReset = () => {
 
         setFiles([]);
-        setFormData({ tagline: '', subtitle: '', product_title: '', price: '', announcement: '', description: '', variant_id: '' });
+        setFormData({ 
+            tagline: '', 
+            subtitle: '', 
+            product_title: '', 
+            price: '', 
+            announcement: '', 
+            description: '', 
+            variant_id: '', 
+            product_id: '', 
+            template_id: '1' 
+        });
         setFormEmpty(true);
-
-    }
-
-    const handleProducts = (e) => {
-
-        setProductItem(e.target.value);
 
     }
 
@@ -123,16 +130,68 @@ const Middleware = () => {
 
     }
 
+    const handleOpenModal = () => setOpenModal(true);
+    const handleCloseModal = () => setOpenModal(false);
+
+    const handlePublish = async () => {
+
+        let url = ''
+
+        try {
+
+            const reqBody = {
+                product_id: formData.product_id,
+                announcement: formData.announcement,
+                tagline: formData.tagline,
+                sub_title: formData.subtitle,
+                description: formData.description,
+                product_title: formData.product_title,
+                price: formData.price,
+                variant_id: formData.variant_id,
+                images: files,
+                template_id: formData.template_id
+            }
+
+            setLoading2(true);
+            const resp = await PAGE_URL.post('/get-live-url', reqBody);
+            const result = resp.data.result;
+
+            setUrl(result.data);
+            url = result.data;
+
+        } catch (e) {
+
+            toast.error('Something went wrong!');
+            console.log(e.message);
+
+        } finally {
+
+            setLoading2(false);
+            url !== '' && handleOpenModal();
+
+        }
+
+    }
+
     const handleFetchProduct = async () => {
 
         try {
 
-            setShowLoader(true)
-            const response = await axios.get(`http://54.162.201.2:8000/api/products/${productItem}`);
+            setShowLoader(true);
+            const response = await axios.get(`http://54.162.201.2:8000/api/products/${formData.product_id}`);
             const result = response.data.product;
             console.log(result);
-            setFormData({ ...formData, product_title: result.title, price: result.price, description: result.description, variant_id: result.variant_id })
-            // setFormEmpty(false);
+            setFormData({ 
+                tagline: '',
+                subtitle: '',
+                announcement: '',
+                template_id: '1',
+                product_id: result.id.match(/(\d+)$/)[0], 
+                product_title: result.title, 
+                price: result.price, 
+                description: result.description, 
+                variant_id: result.variant_id.match(/(\d+)$/)[0] 
+            })
             setFiles(result.images);
 
         } catch (e) {
@@ -142,14 +201,50 @@ const Middleware = () => {
         } finally {
 
             setShowLoader(false);
+            if (formData.product_title !== '' && formData.price !== '')
+                setFormEmpty(false);
 
         }
 
     }
 
+    const handleCopyURL = async () => {
+
+        try {
+
+            await navigator.clipboard.writeText(getUrl);
+            setCopied(true);
+      
+            // Reset the copied state after a delay
+            setTimeout(() => setCopied(false), 800);
+
+        } catch (error) {
+
+            console.error("Failed to copy: ", error);
+
+        }
+
+    }
+
+
     return (
         <div className='min-h-screen'>
             <div className='md:flex gap-2 m-4 h-full'>
+
+                <Dialog open={openModal} onClose={handleCloseModal} fullWidth>
+                    <DialogTitle>Published URL</DialogTitle>
+                    <DialogContent dividers>
+                        <div className='flex w-full relative items-center border p-2 rounded-sm bg-gray-50 border-dashed border-gray-500'>
+                            <div className='font-light text-black truncate w-[90%]'>{getUrl}</div>
+                            <div disabled={!copied} onClick={handleCopyURL} className={`absolute right-1 border bg-gray-200 ${copied ? 'cursor-not-allowed' : 'hover:bg-gray-300 transition-colors duration-200 cursor-pointer'} p-2 rounded-md`}>
+                                {copied ? <IoCheckmarkDoneSharp /> : <IoCopyOutline />}
+                            </div>
+                        </div>
+                    </DialogContent>
+                    <DialogActions>
+                        <button onClick={handleCloseModal} className='p-2 rounded-sm bg-red-500 hover:bg-red-700 transition-colors duration-150 text-white w-[100px]'>Close</button>
+                    </DialogActions>
+                </Dialog>
 
                 <div className='border rounded-md h-full md:w-1/2 mb-3'>
                     <div className='p-3 border-b font-normal underline'>Dynamic Template Generation</div>
@@ -159,7 +254,7 @@ const Middleware = () => {
                     
                                 <Grid2 spacing={1} container size={12}>
                                     <Grid2 size={{ xs: 12, md: 8 }}>
-                                        <TextField id="select" label="Products" disabled={products.length === 0} value={productItem} onChange={handleProducts} select fullWidth>
+                                        <TextField id="select" label="Products" disabled={products.length === 0} name="product_id" value={formData.product_id} onChange={handleChange} select fullWidth>
                                             {products.map((x) => (
                                                 <MenuItem key={x.key} value={x.key}>{x.title}</MenuItem>
                                             ))}
@@ -182,14 +277,14 @@ const Middleware = () => {
                         <div className='m-2'>
                             <Grid2 container spacing={1}>
                                 <Grid2 spacing={1} container size={12}>
-                                    <TextField disabled={productItem === ''} name='announcement' value={formData.announcement} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Announcement (optional)" variant="outlined" fullWidth />
-                                    <TextField disabled={productItem === ''} name='tagline' value={formData.tagline} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Tagline (optional)" variant="outlined" fullWidth />
-                                    <TextField disabled={productItem === ''} name='subtitle' value={formData.subtitle} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Sub title (optional)" variant="outlined" fullWidth />
-                                    <TextField disabled={productItem === ''} name='description' value={formData.description} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Description" variant="outlined" multiline rows={5} fullWidth />
+                                    <TextField disabled={formData.product_id === ''} name='announcement' value={formData.announcement} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Announcement (optional)" variant="outlined" fullWidth />
+                                    <TextField disabled={formData.product_id === ''} name='tagline' value={formData.tagline} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Tagline (optional)" variant="outlined" fullWidth />
+                                    <TextField disabled={formData.product_id === ''} name='subtitle' value={formData.subtitle} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Sub title (optional)" variant="outlined" fullWidth />
+                                    <TextField disabled={formData.product_id === ''} name='description' value={formData.description} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Description" variant="outlined" multiline rows={5} fullWidth />
                                 
                                     <Grid2 spacing={1} container size={12}>
                                         <Grid2 size={{ xs: 12, md: 6 }}>
-                                            <TextField disabled={productItem === ''} name='product_title' fullWidth value={formData.product_title} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Product title" variant="outlined" />
+                                            <TextField disabled={formData.product_id === ''} name='product_title' fullWidth value={formData.product_title} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Product title" variant="outlined" />
                                         </Grid2>
                                         <Grid2 size={{ xs: 12, md: 6 }}>
                                             <TextField disabled name='price' type='number' fullWidth value={formData.price} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Price ($)" variant="outlined" />
@@ -198,11 +293,11 @@ const Middleware = () => {
                                     
                                     <div className='w-full'>
                                         <div className='border-dashed w-full min-h-[300px] border border-black rounded-md'>
-                                            <input ref={fileRef} type='file' disabled={productItem === ''} accept="image/*" onChange={handleFiles} multiple max={4} min={1} className='hidden' />
+                                            <input ref={fileRef} type='file' disabled={formData.product_id === ''} accept="image/*" onChange={handleFiles} multiple max={4} min={1} className='hidden' />
                                             {files.length > 0 ? 
                                             
                                                 <>
-                                                <div className='flex justify-end m-1'><button onClick={handleFileOpen} className='p-2 border border-gray-300 rounded-sm hover:bg-gray-300 transition-colors duration-150'><FiUpload /></button></div>
+                                                {/* <div className='flex justify-end m-1'><button onClick={handleFileOpen} className='p-2 border border-gray-300 rounded-sm hover:bg-gray-300 transition-colors duration-150'><FiUpload /></button></div> */}
                                                 <div className='m-2 flex gap-2 w-full h-[300px] overflow-auto flex-wrap'>
                                                     {files.map((x, i) => {
 
@@ -225,7 +320,7 @@ const Middleware = () => {
                                                 
                                             :
                                                 <div className='w-full h-[300px] flex justify-center items-center' onClick={handleFileOpen}>
-                                                    <img className={`opacity-50 ${productItem === '' ? 'cursor-not-allowed' : 'cursor-pointer'}`} src={uploadImg} height={100} width={150} alt='upload-images' />
+                                                    <img className={`opacity-50 ${formData.product_id === '' ? 'cursor-not-allowed' : 'cursor-pointer'}`} src={uploadImg} height={100} width={150} alt='upload-images' />
                                                 </div>
                                             }
                                         </div>
@@ -252,13 +347,20 @@ const Middleware = () => {
                 </div>
 
                 <div className='md:w-1/2 border rounded-md'>
-                    {!isFormEmpty ? <div className='overflow-y-auto overflow-x-hidden m-1 border h-[99%] w-[98.5%]'>
-                        <ProductCart variantId={formData.variant_id} productItem={productItem} tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} />
-                    </div> : <div className='text-red-500 flex justify-center items-center h-full'>No Preview</div>}
+
+                    {!isFormEmpty && <div className='flex justify-end m-2'>
+                        <button disabled={loading} onClick={handlePublish} className={`bg-black p-3 flex items-center justify-center gap-2 rounded-md text-white font-light ${loading2 ? 'cursor-wait' : 'hover:opacity-70 transition-colors duration-150'} w-full md:w-[200px]`}>
+                            {loading2 ? <Loader color='#ffffff' /> : <><MdPublishedWithChanges />  Save & Publish</>}
+                        </button>
+                    </div>}
+
+                    {!isFormEmpty ? <div className='overflow-y-auto overflow-x-hidden m-1 border border-black border-dashed rounded-md w-[98.5%]'>
+                        <ProductCart variantId={formData.variant_id} productItem={formData.product_id} tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} />
+                    </div> : <div className='text-red-500 flex justify-center items-center h-[95%]'>No Preview</div>}
                     
                     {/* <IPhonePreview>
                         {!isFormEmpty ? <div className='overflow-y-auto overflow-x-hidden scrollbar-hide m-1 border h-[99%] w-[98.5%]'>
-                            <ProductCart variantId={formData.variant_id} productItem={productItem} tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} />
+                            <ProductCart insideIphonePreview={true} variantId={formData.variant_id} productItem={formData.product_id} tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} />
                         </div> : <div className='text-red-500 flex justify-center items-center h-full'>No Preview</div>}
                     </IPhonePreview> */}
 
