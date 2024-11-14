@@ -95,6 +95,23 @@ const CheckoutForm = ({ amount = 0.01, productId, product_title, quantity = 1, v
             setMessage('Payment successful! Thank you for your purchase.');
             setSuccess(true);
             // Additional actions on success
+            // Collect additional customer and payment details
+            const customerEmail = event.payerEmail;
+            const customerName = event.payerName;
+            const shippingAddress = event.shippingAddress;
+            const totalAmount = amount * quantity;
+
+            // Create the Shopify order upon successful payment
+            await axios.post("https://destiny-server-nhyk.onrender.com/create-shopify-order", {
+              productId,
+              productTitle: product_title,
+              quantity,
+              customerEmail,
+              customerName,
+              shippingAddress,
+              totalAmount,
+              currency: "usd"
+            });
           }
         } catch (error) {
           console.error('Error creating PaymentIntent or confirming payment:', error);
