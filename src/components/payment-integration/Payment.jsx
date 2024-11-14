@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Elements, PaymentRequestButtonElement } from "@stripe/react-stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { Oval } from "react-loader-spinner";
