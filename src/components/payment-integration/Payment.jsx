@@ -4,9 +4,9 @@ import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { Oval } from "react-loader-spinner";
 
-// const stripePromise = loadStripe(import.env.VITE_STRIPE_KEY)
+// const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY)
 
-const Payment = ({ productId, amount, product_title }) => {
+const Payment = ({ productId, amount, product_title, variant_id }) => {
 
   const [stripePromise, setStripePromise] = useState(null);
 
@@ -41,7 +41,7 @@ const Payment = ({ productId, amount, product_title }) => {
 
   return (
     <Elements stripe={stripePromise}>
-      <CheckoutForm productId={productId} amount={amount} product_title={product_title} />
+      <CheckoutForm productId={productId} amount={amount} product_title={product_title} variant_id={variant_id} />
     </Elements>
   );
 
