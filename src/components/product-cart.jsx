@@ -287,6 +287,7 @@ const ProductCart = (props) => {
     const { sub_title = 'Halloween, Thanksgiving, and Fall will never be the same.' } = props;
     const { price = '0.01', description = 'Description will come soon.' } = props;
     const { insideIphonePreview = false } = props;
+    const { payment = true } = props;
 
     // const image01 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/websitePDPphotos.png?v=1729596554';
     // const image02 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/websitePDPphotos_7f5dde33-cd53-4439-a547-eae8bfd0d2eb.png?v=1729596554';
@@ -430,9 +431,9 @@ const ProductCart = (props) => {
                             Add to cart
                         </button> */}
 
-                        <ShopPayButton variantId={variantId} />
+                        <ShopPayButton variantId={variantId} payment={payment} />
 
-                        <Payment productId={productItem} product_title={product_title} amount={parseFloat(price).toFixed(2)} variant_id={variantId} />
+                        {payment && <Payment productId={productItem} product_title={product_title} amount={parseFloat(price).toFixed(2)} variant_id={variantId} />}
 
                     </div>
 

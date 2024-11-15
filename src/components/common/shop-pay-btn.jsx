@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import client from './../../shopifyClient';
 import Loader from './loader';
 
-const ShopPayButton = ({ variantId, quantity = 1 }) => {
+const ShopPayButton = ({ variantId, quantity = 1, payment }) => {
     
     const [showLoader, setShowLoader] = useState(false);
 
@@ -43,8 +43,8 @@ const ShopPayButton = ({ variantId, quantity = 1 }) => {
 
     return (
 
-        <button onClick={handleShopPayCheckout} className={`w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
-            ${showLoader ? 'opacity-50 cursor-not-allowed' : 'hover:bg-pink-700 transition-colors duration-200'} disabled:opacity-50 disabled:cursor-not-allowed`}
+        <button onClick={handleShopPayCheckout} disabled={payment === false} className={`w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
+            ${showLoader || payment === false ? 'opacity-50 cursor-not-allowed' : 'hover:bg-pink-700 transition-colors duration-200'} disabled:opacity-50 disabled:cursor-not-allowed`}
         >
             {showLoader ? <Loader color='#ffffff' /> : 'Buy Now'}
         </button>
