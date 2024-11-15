@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import Loader from './common/loader';
 import Preview, { IPhonePreview } from './iphone-preview';
-import { PAGE_URL } from '../helper/constants';
+import { PAGE_URL, SERVER_URL } from '../helper/constants';
 import { MdPublishedWithChanges } from "react-icons/md";
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -54,8 +54,7 @@ const Middleware = () => {
 
             try {
 
-                const response = await axios.get('http://54.162.201.2:8000/api/products');
-                // const response = await axios.get('https://destiny-server-nhyk.onrender.com/api/products');
+                const response = await SERVER_URL.get('api/products');
                 const productData = response.data.products;
 
                 const updatedProductData = productData.map((x) => ({ id: x.id, title: x.title, key: x.id.match(/(\d+)$/)[0] }))
@@ -178,7 +177,7 @@ const Middleware = () => {
         try {
 
             setShowLoader(true);
-            const response = await axios.get(`http://54.162.201.2:8000/api/products/${formData.product_id}`);
+            const response = await SERVER_URL.get(`api/products/${formData.product_id}`);
             const result = response.data.product;
             console.log(result);
             setFormData({ 

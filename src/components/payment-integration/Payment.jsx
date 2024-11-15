@@ -3,20 +3,21 @@ import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
 import { Oval } from "react-loader-spinner";
+import { STRIPE_PUBLISHABLE_KEY } from "../../helper/constants";
 
-// const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_KEY)
+const stripePromise = loadStripe(STRIPE_PUBLISHABLE_KEY)
 
 const Payment = ({ productId, amount, product_title, variant_id }) => {
 
-  const [stripePromise, setStripePromise] = useState(null);
+  // const [stripePromise, setStripePromise] = useState(null);
 
   useEffect(() => {
         
         // Load the Stripe object with the publishable key
-        fetch("https://destiny-server-nhyk.onrender.com/config").then(async (r) => {
-          const { publishableKey } = await r.json();
-          setStripePromise(loadStripe(publishableKey));
-        });
+        // fetch("https://destiny-server-nhyk.onrender.com/config").then(async (r) => {
+        //   const { publishableKey } = await r.json();
+        //   setStripePromise(loadStripe(publishableKey));
+        // });
 
   }, []);
 

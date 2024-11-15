@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useStripe, PaymentRequestButtonElement } from '@stripe/react-stripe-js';
 import axios from 'axios';
+import { SERVER_URL } from '../../helper/constants';
 
 const CheckoutForm = ({ amount = 0.01, productId, product_title, quantity = 1, variant_id = 46075169931421 }) => {
 
@@ -74,7 +75,7 @@ const CheckoutForm = ({ amount = 0.01, productId, product_title, quantity = 1, v
 
 
           // Call backend to create PaymentIntent and get clientSecret
-          const { data } = await axios.post('https://destiny-server-nhyk.onrender.com/create-payment-intent', {
+          const { data } = await SERVER_URL.post('/create-payment-intent', {
             amount: amount,       // Amount in cents
             currency: 'usd',
             productId,
@@ -106,30 +107,31 @@ const CheckoutForm = ({ amount = 0.01, productId, product_title, quantity = 1, v
       pr.on('shippingaddresschange', async (ev) => {
 
         if (ev.shippingAddress.country !== 'US') {
+
           ev.updateWith({ status: 'invalid_shipping_address' });
+
         } else {
+
           try {
+
+            const reqBody = { shippingAddress: ev.shippingAddress };
+            const headers = { headers: { 'Content-Type': 'application/json' } }
             // Request shipping options from the backend
-            const response = await axios.post(
-              'https://destiny-server-nhyk.onrender.com/calculateShipping',
-              {
-                shippingAddress: ev.shippingAddress,
-              },
-              {
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              }
-            );
+            const response = await SERVER_URL.post('/calculateShipping', reqBody, headers);
             const result = response.data;
+
             ev.updateWith({
               status: 'success',
               shippingOptions: result.supportedShippingOptions,
             });
+
           } catch (error) {
+
             console.error('Error fetching shipping options:', error);
             ev.updateWith({ status: 'fail' });
+
           }
+          
         }
 
       });
