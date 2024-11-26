@@ -4,6 +4,7 @@ import { RiCloseLine } from "react-icons/ri";
 import { TbExternalLink } from "react-icons/tb";
 import Payment from './payment-integration/Payment';
 import { ShopPayButton } from './common';
+import ReviewSection from './reviews';
 
 const BackDrop = ({ isOpen, setIsOpen }) => {
 
@@ -11,8 +12,8 @@ const BackDrop = ({ isOpen, setIsOpen }) => {
         <>
             {isOpen && (
                 <div
-                className="absolute inset-0 bg-black/30 z-40"
-                onClick={() => setIsOpen(false)}
+                    className="absolute inset-0 bg-black/30 z-40"
+                    onClick={() => setIsOpen(false)}
                 />
             )}
         </>
@@ -29,7 +30,7 @@ const SideBarRight = (props) => {
     return (
         <>
             <div className={`absolute right-0 top-0 h-full w-full md:w-[480px] bg-white z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto scrollbar-hide ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-                    
+
                 {/* Header */}
                 <div className="sticky top-0 z-10 flex items-center justify-between p-4 bg-white border-b">
 
@@ -45,7 +46,7 @@ const SideBarRight = (props) => {
 
                 {/* Content */}
                 <div className="p-4 space-y-6">
-                    
+
                     {/* Main Image */}
                     <div className="bg-[#e75d8e] scrollbar-hide rounded-lg overflow-hidden">
                         <div className="relative aspect-square">
@@ -60,14 +61,14 @@ const SideBarRight = (props) => {
                     {/* Thumbnails */}
                     <div className="flex gap-2 scrollbar-hide overflow-x-auto pb-2">
                         {images.map((image, index) => (
-                        <button
-                            key={index}
-                            onClick={() => setSelectedImage2(index)}
-                            className={`relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-colors
+                            <button
+                                key={index}
+                                onClick={() => setSelectedImage2(index)}
+                                className={`relative w-24 h-24 flex-shrink-0 rounded-lg overflow-hidden border-2 transition-colors
                             ${selectedImage2 === index ? 'border-[#e75d8e]' : 'border-gray-200'}`}
-                        >
-                            <img  src={image} alt={`Product view ${index + 1}`} className="object-cover" />
-                        </button>
+                            >
+                                <img src={image} alt={`Product view ${index + 1}`} className="object-cover" />
+                            </button>
                         ))}
                     </div>
 
@@ -132,14 +133,14 @@ const SideBarRight = (props) => {
                     {/* Tabs */}
                     <div className="border-b">
                         <div className="flex gap-4">
-                             <button
+                            <button
                                 onClick={() => setActiveTab('description')}
                                 className={`pb-2 text-sm font-medium transition-colors relative
                                 ${activeTab === 'description' ? 'text-black' : 'text-gray-500'}`}
                             >
                                 Description
                                 {activeTab === 'description' && (
-                                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black" />
+                                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black" />
                                 )}
                             </button>
                             <button
@@ -149,7 +150,7 @@ const SideBarRight = (props) => {
                             >
                                 Ingredients
                                 {activeTab === 'ingredients' && (
-                                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black" />
+                                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-black" />
                                 )}
                             </button>
                         </div>
@@ -188,11 +189,11 @@ const AddToCart = (props) => {
 
     const increment = () => setCount(prev => prev + 1)
     const decrement = () => setCount(prev => Math.max(1, prev - 1))
-    
+
 
     return (
         <div className={`fixed md:absolute right-0 top-0 h-full w-full md:w-[400px] bg-white z-50 transform transition-transform duration-300 ease-in-out overflow-y-auto ${isOpen2 ? 'translate-x-0' : 'translate-x-full'}`}>
-                    
+
             {/* Header */}
             <div className="sticky top-0 z-10 flex items-center justify-between p-4 bg-white border-b">
 
@@ -220,19 +221,19 @@ const AddToCart = (props) => {
 
                         <div className="flex items-center justify-between mb-4">
                             <div className="flex items-center">
-                            <button
-                                onClick={decrement}
-                                className="w-8 h-8 rounded-full bg-pink-200 text-pink-500 flex items-center justify-center text-xl font-bold"
-                            >
-                                -
-                            </button>
-                            <span className="mx-4 w-8 text-center text-xl">{count}</span>
-                            <button
-                                onClick={increment}
-                                className="w-8 h-8 rounded-full bg-pink-200 text-pink-500 flex items-center justify-center text-xl font-bold"
-                            >
-                                +
-                            </button>
+                                <button
+                                    onClick={decrement}
+                                    className="w-8 h-8 rounded-full bg-pink-200 text-pink-500 flex items-center justify-center text-xl font-bold"
+                                >
+                                    -
+                                </button>
+                                <span className="mx-4 w-8 text-center text-xl">{count}</span>
+                                <button
+                                    onClick={increment}
+                                    className="w-8 h-8 rounded-full bg-pink-200 text-pink-500 flex items-center justify-center text-xl font-bold"
+                                >
+                                    +
+                                </button>
                             </div>
                             <span className="text-xl font-bold">${parseFloat(price) * count}</span>
                         </div>
@@ -255,7 +256,7 @@ const AddToCart = (props) => {
                 </div>
 
             </div>
-            
+
         </div>
     )
 
@@ -265,12 +266,12 @@ const Footer = () => {
 
     return (
         <footer className="w-full max-w-6xl mx-auto px-4 py-8 space-y-6">
-    
+
             {/* View More Link */}
             <div className="flex justify-center">
                 <a href="https://shop.drinkmoment.com/" target='_blank' className="inline-flex items-center gap-2 px-6 py-3 bg-[#fff5eb] rounded-lg text-sm font-light hover:bg-[#fff0e0] transition-colors duration-200">
                     View more on <span className='font-medium flex items-center gap-2'>Moment
-                    <IoLogOutOutline className="w-5 h-5" /></span>
+                        <IoLogOutOutline className="w-5 h-5" /></span>
                 </a>
             </div>
 
@@ -286,8 +287,6 @@ const ProductCart = (props) => {
     const { product_title = 'blue shirt' } = props;
     const { sub_title = 'Halloween, Thanksgiving, and Fall will never be the same.' } = props;
     const { price = '0.01', description = 'Description will come soon.' } = props;
-    const { insideIphonePreview = false } = props;
-    const { payment = true } = props;
 
     // const image01 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/websitePDPphotos.png?v=1729596554';
     // const image02 = 'https://cdn.shopify.com/s/files/1/0690/0468/9565/files/websitePDPphotos_7f5dde33-cd53-4439-a547-eae8bfd0d2eb.png?v=1729596554';
@@ -297,11 +296,16 @@ const ProductCart = (props) => {
 
     const image01 = "https://cdn.shopify.com/s/files/1/0690/0468/9565/files/blueshirt.jpg?v=1729298939"
 
-    const { images = [ image01 ] } = props;
-    const { productItem = "gid://shopify/Product/8477048995997" } = props;
+    const { images = [image01] } = props;
+    const { product_id = "8477048995997" } = props;
     // const { images = [ image01, image02, image03, image04, image05 ] } = props;
-    const { variantId = 'gid://shopify/ProductVariant/46075169931421' } = props;
+    const { variant_id = '46075169931421' } = props;
     // const { variantId = "gid://shopify/ProductVariant/46085726306461" } = props;
+
+    const productItem = `gid://shopify/Product/${product_id}`;
+    const variantId = `gid://shopify/ProductVariant/${variant_id}`;
+
+    const { payment } = props;
 
     const [selectedImage, setSelectedImage] = useState(0);
     const [selectedImage2, setSelectedImage2] = useState(0);
@@ -316,7 +320,7 @@ const ProductCart = (props) => {
         setIsOpen2(true);
 
     }
-  
+
     return (
         <div className="min-h-screen bg-white relative overflow-x-hidden scrollbar-hide">
 
@@ -344,12 +348,12 @@ const ProductCart = (props) => {
                 </div>
 
                 {/* Product Section */}
-                <div className={`grid ${insideIphonePreview ? 'grid-cols-1' : 'md:grid-cols-2'} gap-8 max-w-6xl mx-auto`}>
+                <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
 
                     {/* Product Images */}
                     <div className="space-y-4">
                         <div className="bg-[#e75d8e] rounded-lg overflow-hidden scrollbar-hide">
-                            <div className="relative aspect-square" onClick={() => setIsOpen(true)}>
+                            <div className="relative aspect-square">
                                 <img
                                     src={images[selectedImage]}
                                     alt="Botanical Soda Variety Pack"
@@ -381,63 +385,76 @@ const ProductCart = (props) => {
 
                     {/* Product Details */}
                     <div className="space-y-6">
+
                         <div className="flex justify-between items-center">
                             <h2 className="text-2xl font-serif font-bold">{product_title}</h2>
                             <div className="text-xl font-serif font-bold text-nowrap">US ${price}</div>
                         </div>
 
-                        {/* Purchase Options */}
-                        <div className="space-y-4">
-                        <h3 className="text-sm font-medium text-gray-500">Purchase Option</h3>
-                        <div className="space-y-3">
-                            {/* <label className={`flex items-center justify-between border rounded-lg p-4 cursor-pointer transition-colors
-                            ${purchaseOption === 'subscribe' ? 'border-[#e75d8e] bg-pink-50' : 'border-gray-200'}`}>
-                            <div className="flex items-center space-x-2">
-                                <input
-                                type="radio"
-                                name="purchase-option"
-                                value="subscribe"
-                                checked={purchaseOption === 'subscribe'}
-                                onChange={(e) => setPurchaseOption(e.target.value)}
-                                className="w-4 h-4 text-[#e75d8e] border-gray-300 focus:ring-[#e75d8e]"
-                                />
-                                <span>Subscribe - Save $6</span>
+                        <p className="font-light text-justify">{description}</p>
+
+                        <div className='fixed md:static bottom-0 bg-white md:bg-transparent p-2 left-0 md:p-0 w-full'>
+
+                            {/* Purchase Options */}
+                            <div className="space-y-4 mb-3">
+                                <h3 className="text-sm font-medium text-gray-500">Purchase Option</h3>
+                                <div className="space-y-3">
+                                    {/* <label className={`flex items-center justify-between border rounded-lg p-4 cursor-pointer transition-colors
+                                    ${purchaseOption === 'subscribe' ? 'border-[#e75d8e] bg-pink-50' : 'border-gray-200'}`}>
+                                    <div className="flex items-center space-x-2">
+                                        <input
+                                        type="radio"
+                                        name="purchase-option"
+                                        value="subscribe"
+                                        checked={purchaseOption === 'subscribe'}
+                                        onChange={(e) => setPurchaseOption(e.target.value)}
+                                        className="w-4 h-4 text-[#e75d8e] border-gray-300 focus:ring-[#e75d8e]"
+                                        />
+                                        <span>Subscribe - Save $6</span>
+                                    </div>
+                                    <span className="font-medium">$48</span>
+                                    </label> */}
+
+                                    <label className={`flex items-center justify-between border rounded-md p-[0.6em] cursor-pointer transition-colors
+                                        ${purchaseOption === 'one-time' ? 'border-[#e75d8e] bg-pink-50' : 'border-gray-200'}`}>
+                                        <div className="flex items-center space-x-2">
+                                            <input
+                                                type="radio"
+                                                name="purchase-option"
+                                                value="one-time"
+                                                checked={purchaseOption === 'one-time'}
+                                                onChange={(e) => setPurchaseOption(e.target.value)}
+                                                className="w-4 h-4 text-[#e75d8e] border-gray-300 focus:ring-[#e75d8e]"
+                                            />
+                                            <span className='font-serif'>One-Time Purchase</span>
+                                        </div>
+                                        <span className="font-medium font-serif">${price}</span>
+                                    </label>
+
+                                </div>
                             </div>
-                            <span className="font-medium">$48</span>
-                            </label> */}
 
-                            <label className={`flex items-center justify-between border rounded-lg p-4 cursor-pointer transition-colors
-                            ${purchaseOption === 'one-time' ? 'border-[#e75d8e] bg-pink-50' : 'border-gray-200'}`}>
-                            <div className="flex items-center space-x-2">
-                                <input
-                                    type="radio"
-                                    name="purchase-option"
-                                    value="one-time"
-                                    checked={purchaseOption === 'one-time'}
-                                    onChange={(e) => setPurchaseOption(e.target.value)}
-                                    className="w-4 h-4 text-[#e75d8e] border-gray-300 focus:ring-[#e75d8e]"
-                                />
-                                <span className='font-serif'>One-Time Purchase</span>
+                            {/* Add to Cart Button */}
+                            {/* <button onClick={handleCart} className="w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
+                                hover:bg-pink-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                Add to cart
+                            </button> */}
+
+                            <div className='flex justify-center items-center gap-2 md:block w-full'>
+                                <ShopPayButton variantId={variantId} payment={payment} />
+                                <Payment payment={payment} productId={productItem} product_title={product_title} amount={parseFloat(price).toFixed(2)} variant_id={variantId} />
                             </div>
-                            <span className="font-medium font-serif">${price}</span>
-                            </label>
-                        </div>
+
                         </div>
 
-                        {/* Add to Cart Button */}
-                        {/* <button onClick={handleCart} className="w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
-                            hover:bg-pink-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            Add to cart
-                        </button> */}
-
-                        <ShopPayButton variantId={variantId} payment={payment} />
-
-                        {payment && <Payment productId={productItem} product_title={product_title} amount={parseFloat(price).toFixed(2)} variant_id={variantId} />}
 
                     </div>
 
                 </div>
+
+                <ReviewSection />
+
 
             </main>
 
