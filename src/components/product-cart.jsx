@@ -322,144 +322,146 @@ const ProductCart = (props) => {
     }
 
     return (
-        <div className="min-h-screen bg-white relative overflow-x-hidden scrollbar-hide">
+        <div className='relative w-full'>
+            <div className="min-h-screen bg-white relative overflow-x-hidden scrollbar-hide">
 
-            <BackDrop isOpen={isOpen} setIsOpen={setIsOpen} />
+                <BackDrop isOpen={isOpen} setIsOpen={setIsOpen} />
 
-            {/* <BackDrop isOpen={isOpen2} setIsOpen={setIsOpen2} /> */}
+                {/* <BackDrop isOpen={isOpen2} setIsOpen={setIsOpen2} /> */}
 
-            <SideBarRight product_title={product_title} description={description} price={price} isOpen={isOpen} setIsOpen={setIsOpen} images={images} selectedImage2={selectedImage2} setSelectedImage2={setSelectedImage2} activeTab={activeTab} setActiveTab={setActiveTab} purchaseOption2={purchaseOption2} setPurchaseOption2={setPurchaseOption2} />
+                <SideBarRight product_title={product_title} description={description} price={price} isOpen={isOpen} setIsOpen={setIsOpen} images={images} selectedImage2={selectedImage2} setSelectedImage2={setSelectedImage2} activeTab={activeTab} setActiveTab={setActiveTab} purchaseOption2={purchaseOption2} setPurchaseOption2={setPurchaseOption2} />
 
-            {/* <AddToCart variantId={variantId} isOpen2={isOpen2} setIsOpen2={setIsOpen2} product_title={product_title} price={price} images={images} /> */}
+                {/* <AddToCart variantId={variantId} isOpen2={isOpen2} setIsOpen2={setIsOpen2} product_title={product_title} price={price} images={images} /> */}
 
-            {/* Announcement Banner */}
-            {announcement !== '' && <div className="w-full bg-[#ffff99] uppercase p-2 text-center text-sm font-medium">
-                {announcement}
-            </div>}
+                {/* Announcement Banner */}
+                {announcement !== '' && <div className="w-full bg-[#ffff99] uppercase p-2 text-center text-sm font-medium">
+                    {announcement}
+                </div>}
 
-            <main className="container mx-auto px-4 py-8">
+                <main className="container mx-auto px-4 py-8">
 
-                {/* Product Header */}
-                <div className="text-center mb-8">
-                    <h1 className="text-3xl md:text-4xl font-bold mb-2 font-serif">{tagline}</h1>
-                    <p className="text-gray-600 font-light">
-                        {sub_title}
-                    </p>
-                </div>
-
-                {/* Product Section */}
-                <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-
-                    {/* Product Images */}
-                    <div className="space-y-4">
-                        <div className="bg-[#e75d8e] rounded-lg overflow-hidden scrollbar-hide">
-                            <div className="relative aspect-square">
-                                <img
-                                    src={images[selectedImage]}
-                                    alt="Botanical Soda Variety Pack"
-                                    className="object-cover w-full h-full transition-opacity duration-300 ease-in-out"
-                                />
-                            </div>
-                        </div>
-
-                        {/* Thumbnail Images */}
-                        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 w-[330px] md:w-auto">
-                            {images.map((image, index) => (
-                                <button
-                                    key={index}
-                                    onClick={() => setSelectedImage(index)}
-                                    className={`relative w-24 h-24 flex-shrink-0 rounded-lg scrollbar-hide overflow-hidden border-2 transition-colors duration-200 
-                                        ${selectedImage === index ? 'border-[#e75d8e]' : 'border-gray-200'}`}
-                                    aria-label={`View product image ${index + 1}`}
-                                >
-                                    <img
-                                        src={image}
-                                        alt={`Product view ${index + 1}`}
-                                        className="object-cover"
-                                    />
-                                </button>
-                            ))}
-                        </div>
-
+                    {/* Product Header */}
+                    <div className="text-center mb-8">
+                        <h1 className="text-3xl md:text-4xl font-bold mb-2 font-serif">{tagline}</h1>
+                        <p className="text-gray-600 font-light">
+                            {sub_title}
+                        </p>
                     </div>
 
-                    {/* Product Details */}
-                    <div className="space-y-6">
+                    {/* Product Section */}
+                    <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
 
-                        <div className="flex justify-between items-center">
-                            <h2 className="text-2xl font-serif font-bold">{product_title}</h2>
-                            <div className="text-xl font-serif font-bold text-nowrap">US ${price}</div>
-                        </div>
-
-                        <p className="font-light text-justify">{description}</p>
-
-                        <div className='fixed md:static bottom-0 bg-white md:bg-transparent p-2 left-0 md:p-0 w-full'>
-
-                            {/* Purchase Options */}
-                            <div className="space-y-4 mb-3">
-                                <h3 className="text-sm font-medium text-gray-500">Purchase Option</h3>
-                                <div className="space-y-3">
-                                    {/* <label className={`flex items-center justify-between border rounded-lg p-4 cursor-pointer transition-colors
-                                    ${purchaseOption === 'subscribe' ? 'border-[#e75d8e] bg-pink-50' : 'border-gray-200'}`}>
-                                    <div className="flex items-center space-x-2">
-                                        <input
-                                        type="radio"
-                                        name="purchase-option"
-                                        value="subscribe"
-                                        checked={purchaseOption === 'subscribe'}
-                                        onChange={(e) => setPurchaseOption(e.target.value)}
-                                        className="w-4 h-4 text-[#e75d8e] border-gray-300 focus:ring-[#e75d8e]"
-                                        />
-                                        <span>Subscribe - Save $6</span>
-                                    </div>
-                                    <span className="font-medium">$48</span>
-                                    </label> */}
-
-                                    <label className={`flex items-center justify-between border rounded-md p-[0.6em] cursor-pointer transition-colors
-                                        ${purchaseOption === 'one-time' ? 'border-[#e75d8e] bg-pink-50' : 'border-gray-200'}`}>
-                                        <div className="flex items-center space-x-2">
-                                            <input
-                                                type="radio"
-                                                name="purchase-option"
-                                                value="one-time"
-                                                checked={purchaseOption === 'one-time'}
-                                                onChange={(e) => setPurchaseOption(e.target.value)}
-                                                className="w-4 h-4 text-[#e75d8e] border-gray-300 focus:ring-[#e75d8e]"
-                                            />
-                                            <span className='font-serif'>One-Time Purchase</span>
-                                        </div>
-                                        <span className="font-medium font-serif">${price}</span>
-                                    </label>
-
+                        {/* Product Images */}
+                        <div className="space-y-4">
+                            <div className="bg-[#e75d8e] rounded-lg overflow-hidden scrollbar-hide">
+                                <div className="relative aspect-square">
+                                    <img
+                                        src={images[selectedImage]}
+                                        alt="Botanical Soda Variety Pack"
+                                        className="object-cover w-full h-full transition-opacity duration-300 ease-in-out"
+                                    />
                                 </div>
                             </div>
 
-                            {/* Add to Cart Button */}
-                            {/* <button onClick={handleCart} className="w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
-                                hover:bg-pink-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                            >
-                                Add to cart
-                            </button> */}
-
-                            <div className='flex justify-center items-center gap-2 md:block w-full'>
-                                <ShopPayButton variantId={variantId} payment={payment} />
-                                <Payment payment={payment} productId={productItem} product_title={product_title} amount={parseFloat(price).toFixed(2)} variant_id={variantId} />
+                            {/* Thumbnail Images */}
+                            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 w-[330px] md:w-auto">
+                                {images.map((image, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setSelectedImage(index)}
+                                        className={`relative w-24 h-24 flex-shrink-0 rounded-lg scrollbar-hide overflow-hidden border-2 transition-colors duration-200 
+                                            ${selectedImage === index ? 'border-[#e75d8e]' : 'border-gray-200'}`}
+                                        aria-label={`View product image ${index + 1}`}
+                                    >
+                                        <img
+                                            src={image}
+                                            alt={`Product view ${index + 1}`}
+                                            className="object-cover"
+                                        />
+                                    </button>
+                                ))}
                             </div>
 
                         </div>
 
+                        {/* Product Details */}
+                        <div className="space-y-6">
+
+                            <div className="flex justify-between items-center">
+                                <h2 className="text-2xl font-serif font-bold">{product_title}</h2>
+                                <div className="text-xl font-serif font-bold text-nowrap">US ${price}</div>
+                            </div>
+
+                            <p className="font-light text-justify">{description}</p>
+
+                            <div className='absolute md:static bottom-0 bg-white md:bg-transparent p-2 left-0 md:p-0 w-full'>
+
+                                {/* Purchase Options */}
+                                <div className="space-y-4 mb-3">
+                                    <h3 className="text-sm font-medium text-gray-500">Purchase Option</h3>
+                                    <div className="space-y-3">
+                                        {/* <label className={`flex items-center justify-between border rounded-lg p-4 cursor-pointer transition-colors
+                                        ${purchaseOption === 'subscribe' ? 'border-[#e75d8e] bg-pink-50' : 'border-gray-200'}`}>
+                                        <div className="flex items-center space-x-2">
+                                            <input
+                                            type="radio"
+                                            name="purchase-option"
+                                            value="subscribe"
+                                            checked={purchaseOption === 'subscribe'}
+                                            onChange={(e) => setPurchaseOption(e.target.value)}
+                                            className="w-4 h-4 text-[#e75d8e] border-gray-300 focus:ring-[#e75d8e]"
+                                            />
+                                            <span>Subscribe - Save $6</span>
+                                        </div>
+                                        <span className="font-medium">$48</span>
+                                        </label> */}
+
+                                        <label className={`flex items-center justify-between border rounded-md p-[0.6em] cursor-pointer transition-colors
+                                            ${purchaseOption === 'one-time' ? 'border-[#e75d8e] bg-pink-50' : 'border-gray-200'}`}>
+                                            <div className="flex items-center space-x-2">
+                                                <input
+                                                    type="radio"
+                                                    name="purchase-option"
+                                                    value="one-time"
+                                                    checked={purchaseOption === 'one-time'}
+                                                    onChange={(e) => setPurchaseOption(e.target.value)}
+                                                    className="w-4 h-4 text-[#e75d8e] border-gray-300 focus:ring-[#e75d8e]"
+                                                />
+                                                <span className='font-serif'>One-Time Purchase</span>
+                                            </div>
+                                            <span className="font-medium font-serif">${price}</span>
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                                {/* Add to Cart Button */}
+                                {/* <button onClick={handleCart} className="w-full py-3 px-4 bg-pink-500 text-white rounded-lg font-medium 
+                                    hover:bg-pink-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    Add to cart
+                                </button> */}
+
+                                <div className='flex justify-center items-center gap-2 md:block w-full'>
+                                    <ShopPayButton variantId={variantId} payment={payment} />
+                                    <Payment payment={payment} productId={productItem} product_title={product_title} amount={parseFloat(price).toFixed(2)} variant_id={variantId} />
+                                </div>
+
+                            </div>
+
+
+                        </div>
 
                     </div>
 
-                </div>
-
-                <ReviewSection />
+                    <ReviewSection />
 
 
-            </main>
+                </main>
 
-            <Footer />
+                <Footer />
 
+            </div>
         </div>
     );
 
