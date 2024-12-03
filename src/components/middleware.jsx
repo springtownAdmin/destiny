@@ -23,7 +23,7 @@ import { IoCheckmarkDoneSharp } from "react-icons/io5";
 
 const Middleware = () => {
 
-    const [ formData, setFormData ] = useState({
+    const [formData, setFormData] = useState({
         product_id: '',
         tagline: '',
         subtitle: '',
@@ -37,16 +37,16 @@ const Middleware = () => {
 
     const [products, setProducts] = useState([]);
 
-    const [ isFormEmpty, setFormEmpty ] = useState(true);
+    const [isFormEmpty, setFormEmpty] = useState(true);
 
     const fileRef = useRef(null);
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [loading2, setLoading2] = useState(false);
-    const [ showLoader, setShowLoader ] = useState(false);
+    const [showLoader, setShowLoader] = useState(false);
     const [openModal, setOpenModal] = useState(false);
-    const [ getUrl, setUrl ] = useState('');
-    const [ copied, setCopied ] = useState(false);
+    const [getUrl, setUrl] = useState('');
+    const [copied, setCopied] = useState(false);
 
     useEffect(() => {
 
@@ -89,7 +89,7 @@ const Middleware = () => {
 
         const allFiles = Array.from(e.target.files);
         const allURLs = allFiles.map(v => URL.createObjectURL(v));
-        setFiles([ ...files, ...allURLs ]);
+        setFiles([...files, ...allURLs]);
         console.log(allFiles);
 
     }
@@ -101,16 +101,16 @@ const Middleware = () => {
     const handleReset = () => {
 
         setFiles([]);
-        setFormData({ 
-            tagline: '', 
-            subtitle: '', 
-            product_title: '', 
-            price: '', 
-            announcement: '', 
-            description: '', 
-            variant_id: '', 
-            product_id: '', 
-            template_id: '1' 
+        setFormData({
+            tagline: '',
+            subtitle: '',
+            product_title: '',
+            price: '',
+            announcement: '',
+            description: '',
+            variant_id: '',
+            product_id: '',
+            template_id: '1'
         });
         setFormEmpty(true);
 
@@ -125,7 +125,7 @@ const Middleware = () => {
             if (formData.product_title !== '' && formData.price !== '')
                 setFormEmpty(false);
 
-        },500);
+        }, 500);
 
     }
 
@@ -180,16 +180,16 @@ const Middleware = () => {
             const response = await SERVER_URL.get(`api/products/${formData.product_id}`);
             const result = response.data.product;
             console.log(result);
-            setFormData({ 
+            setFormData({
                 tagline: '',
                 subtitle: '',
                 announcement: '',
                 template_id: '1',
-                product_id: result.id.match(/(\d+)$/)[0], 
-                product_title: result.title, 
-                price: result.price, 
-                description: result.description, 
-                variant_id: result.variant_id.match(/(\d+)$/)[0] 
+                product_id: result.id.match(/(\d+)$/)[0],
+                product_title: result.title,
+                price: result.price,
+                description: result.description,
+                variant_id: result.variant_id.match(/(\d+)$/)[0]
             })
             setFiles(result.images);
 
@@ -213,7 +213,7 @@ const Middleware = () => {
 
             await navigator.clipboard.writeText(getUrl);
             setCopied(true);
-      
+
             // Reset the copied state after a delay
             setTimeout(() => setCopied(false), 800);
 
@@ -250,7 +250,7 @@ const Middleware = () => {
                     <div>
                         <div className='m-2'>
                             <Grid2 container spacing={1}>
-                    
+
                                 <Grid2 spacing={1} container size={12}>
                                     <Grid2 size={{ xs: 12, md: 8 }}>
                                         <TextField id="select" label="Products" disabled={products.length === 0} name="product_id" value={formData.product_id} onChange={handleChange} select fullWidth>
@@ -262,12 +262,12 @@ const Middleware = () => {
                                     <Grid2 size={{ xs: 12, md: 4 }}>
                                         {
                                             showLoader ?
-                                            <button className='bg-blue-700 cursor-wait w-full opacity-50 text-white p-4 rounded-md'><Loader color='#ffffff' /></button> :
-                                            <button onClick={handleFetchProduct} className='bg-blue-700 w-full hover:bg-blue-800 transition-all duration-150 text-white p-4 rounded-md'>Fetch Details</button>
+                                                <button className='bg-blue-700 cursor-wait w-full opacity-50 text-white p-4 rounded-md'><Loader color='#ffffff' /></button> :
+                                                <button onClick={handleFetchProduct} className='bg-blue-700 w-full hover:bg-blue-800 transition-all duration-150 text-white p-4 rounded-md'>Fetch Details</button>
                                         }
                                     </Grid2>
                                 </Grid2>
-                                
+
                             </Grid2>
                         </div>
 
@@ -280,44 +280,44 @@ const Middleware = () => {
                                     <TextField disabled={formData.product_id === ''} name='tagline' value={formData.tagline} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Tagline (optional)" variant="outlined" fullWidth />
                                     <TextField disabled={formData.product_id === ''} name='subtitle' value={formData.subtitle} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Sub title (optional)" variant="outlined" fullWidth />
                                     <TextField disabled={formData.product_id === ''} name='description' value={formData.description} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Description" variant="outlined" multiline rows={5} fullWidth />
-                                
+
                                     <Grid2 spacing={1} container size={12}>
                                         <Grid2 size={{ xs: 12, md: 6 }}>
-                                            <TextField disabled={formData.product_id === ''} name='product_title' fullWidth value={formData.product_title} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Product title" variant="outlined" />
+                                            <TextField disabled={true} name='product_title' fullWidth value={formData.product_title} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Product title" variant="outlined" />
                                         </Grid2>
                                         <Grid2 size={{ xs: 12, md: 6 }}>
                                             <TextField disabled name='price' type='number' fullWidth value={formData.price} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Price ($)" variant="outlined" />
                                         </Grid2>
                                     </Grid2>
-                                    
+
                                     <div className='w-full'>
                                         <div className='border-dashed w-full min-h-[300px] border border-black rounded-md'>
                                             <input ref={fileRef} type='file' disabled={formData.product_id === ''} accept="image/*" onChange={handleFiles} multiple max={4} min={1} className='hidden' />
-                                            {files.length > 0 ? 
-                                            
-                                                <>
-                                                {/* <div className='flex justify-end m-1'><button onClick={handleFileOpen} className='p-2 border border-gray-300 rounded-sm hover:bg-gray-300 transition-colors duration-150'><FiUpload /></button></div> */}
-                                                <div className='m-2 flex gap-2 w-full h-[300px] overflow-auto flex-wrap'>
-                                                    {files.map((x, i) => {
+                                            {files.length > 0 ?
 
-                                                        return (
-                                                            <div key={i} className='h-[100px] w-[100px] relative group'>
-                                                                <div className='border border-gray-600 h-full w-full rounded-sm bg-contain bg-no-repeat bg-center' style={{ backgroundImage: `url(${x})` }}>
-                                                                    <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-sm flex items-center justify-center">
-                                                                        <button className="absolute top-1 right-1 text-red-500 bg-white" onClick={() => removeFiles(i)} >
-                                                                            <IoIosCloseCircle className="h-5 w-5" />
-                                                                            <span className="sr-only">Remove image</span>
-                                                                        </button>
+                                                <>
+                                                    {/* <div className='flex justify-end m-1'><button onClick={handleFileOpen} className='p-2 border border-gray-300 rounded-sm hover:bg-gray-300 transition-colors duration-150'><FiUpload /></button></div> */}
+                                                    <div className='m-2 flex gap-2 w-full h-[300px] overflow-auto flex-wrap'>
+                                                        {files.map((x, i) => {
+
+                                                            return (
+                                                                <div key={i} className='h-[100px] w-[100px] relative group'>
+                                                                    <div className='border border-gray-600 h-full w-full rounded-sm bg-contain bg-no-repeat bg-center' style={{ backgroundImage: `url(${x})` }}>
+                                                                        <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-sm flex items-center justify-center">
+                                                                            <button className="absolute top-1 right-1 text-red-500 bg-white" onClick={() => removeFiles(i)} >
+                                                                                <IoIosCloseCircle className="h-5 w-5" />
+                                                                                <span className="sr-only">Remove image</span>
+                                                                            </button>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        )
+                                                            )
 
-                                                    })}
-                                                </div>
+                                                        })}
+                                                    </div>
                                                 </>
-                                                
-                                            :
+
+                                                :
                                                 <div className='w-full h-[300px] flex justify-center items-center' onClick={handleFileOpen}>
                                                     <img className={`opacity-50 ${formData.product_id === '' ? 'cursor-not-allowed' : 'cursor-pointer'}`} src={uploadImg} height={100} width={150} alt='upload-images' />
                                                 </div>
@@ -328,7 +328,7 @@ const Middleware = () => {
                                     <div className='w-full'>
                                         <div className='w-full flex justify-end items-center gap-2'>
                                             <button onClick={handleReset} className='w-[100px] border rounded-md p-3 bg-black border-black text-white hover:bg-white hover:text-black transition-colors duration-150'>Reset</button>
-                                            {loading ? 
+                                            {loading ?
                                                 <button className='p-3 gap-2 border rounded-md border-black opacity-50 w-[100px] cursor-wait'>
                                                     <Loader color='#000000' />
                                                 </button>
@@ -356,7 +356,7 @@ const Middleware = () => {
                     {!isFormEmpty ? <div className='overflow-y-auto overflow-x-hidden m-1 border border-black border-dashed rounded-md w-[98.5%]'>
                         <ProductCart variantId={formData.variant_id} productItem={formData.product_id} tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} payment={false} />
                     </div> : <div className='text-red-500 flex justify-center items-center h-[95%]'>No Preview</div>}
-                    
+
                     {/* <IPhonePreview>
                         {!isFormEmpty ? <div className='overflow-y-auto overflow-x-hidden scrollbar-hide m-1 border h-[99%] w-[98.5%]'>
                             <ProductCart insideIphonePreview={true} variantId={formData.variant_id} productItem={formData.product_id} tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} />
