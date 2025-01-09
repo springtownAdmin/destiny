@@ -31,10 +31,7 @@ const Middleware = () => {
 
     const [formData, setFormData] = useState({
         product_id: '',
-        tagline: '',
-        subtitle: '',
         product_title: '',
-        announcement: '',
         description: '',
         price: '',
         variant_id: '',
@@ -43,7 +40,6 @@ const Middleware = () => {
             announcement: "",
             tagline: "",
             sub_title: "",
-            description: "",
             images: []
         },
         head_tagline: '',
@@ -123,10 +119,23 @@ const Middleware = () => {
     }, []);
 
     const handleChange = (e) => {
-
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    }
+        const { name, value } = e.target;
+    
+        if (name == 'tagline' || name == 'announcement' || name == 'sub_title') {
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                header_section: {
+                    ...prevFormData.header_section,
+                    [name]: value,
+                },
+            }));
+        } else {
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                [name]: value,
+            }));
+        }
+    };
 
     const handleChange2 = (e) => {
 
@@ -138,21 +147,24 @@ const Middleware = () => {
 
         setFiles([]);
         setFiles2([]);
-        setFormData({
-            tagline: '',
-            subtitle: '',
+        setFormData((prev) => ({
+            header_section: {
+                announcement: "",
+                tagline: "",
+                sub_title: "",
+                images: []
+            },
             product_title: '',
             price: '',
-            announcement: '',
             description: '',
             variant_id: '',
             product_id: '',
-            template_id: '1',
+            template_id: prev.template_id ?? '1',
             similar_products:[],
             head_tagline: '',
             button_title: 'Shop Now',
             benefits: []
-        });
+        }));
         setFormEmpty(true);
         setBenefits([]);
         setCurrentBenefit({ id: 1, benefit: '', description: '', file: [] });
@@ -162,7 +174,9 @@ const Middleware = () => {
     const handleGenerate = async () => {
 
         setLoading(true);
-        handleFetchSimilarProducts();
+        if (formData.similar_products?.length > 0) {
+            handleFetchSimilarProducts();
+        }
         setTimeout(() => {
 
             setLoading(false);
@@ -198,16 +212,12 @@ const Middleware = () => {
             let updatedFormData = { ...formData };
     
             // Process files2 and update header_section
-            if (files2.length >= 0) {
+            if (files2?.length >= 0) {
                 const images = await s3ImageListProcessor(files2);
             
                 // Prepare header_section with all required fields
                 const updatedHeaderSection = {
-                    ...formData.header_section, // Preserve existing fields in header_section
-                    announcement: formData.announcement, // Ensure announcement is updated
-                    tagline: formData.head_tagline, // Ensure tagline is updated
-                    sub_title: formData.subtitle, // Map subtitle to sub_title
-                    description: formData.description, // Map description
+                    ...formData.header_section, 
                     images, // Add processed images
                 };
                 
@@ -220,15 +230,15 @@ const Middleware = () => {
             
     
             // Process files and update images
-            if (files.length >= 0) {
+            if (files?.length >= 0) {
                 const images = await s3ImageListProcessor(files);
                 updatedFormData.images = images;
             }
     
             // Process benefits_section
-            if (benefits.length > 0) {
+            if (benefits?.length > 0) {
                 const updatedBenefits = await Promise.all(
-                    benefits.map(async (benefit) => {
+                    benefits?.map(async (benefit) => {
                         const processedFiles = await s3ImageListProcessor(benefit.file);
                         return { ...benefit, file: processedFiles };
                     })
@@ -241,9 +251,6 @@ const Middleware = () => {
             // Construct the request body using the updated local copy
             const reqBody = {
                 product_id: updatedFormData.product_id,
-                announcement: updatedFormData.announcement,
-                tagline: updatedFormData.tagline,
-                sub_title: updatedFormData.subtitle,
                 description: updatedFormData.description,
                 product_title: updatedFormData.product_title,
                 price: updatedFormData.price,
@@ -252,10 +259,10 @@ const Middleware = () => {
                 benefits_section: updatedFormData.benefits_section,
                 template_id: updatedFormData.template_id,
                 header_section: updatedFormData.header_section,
-                similar_products: updatedFormData.similar_products.map(product => (product.value)),
+                similar_products: updatedFormData.similar_products?.map(product => (product.value)),
                 template_type: updatedFormData.template_id,
                 Custom_Button_Label: updatedFormData.button_title,
-            };
+            };            
 
             // Send the request
             const resp = await PAGE_URL.post('/get-live-url', reqBody);
@@ -285,18 +292,21 @@ const Middleware = () => {
             const response = await SERVER_URL.get(`api/products/${formData.product_id}`);
             const result = response.data.product;            
 
-            setFormData({
-                tagline: '',
-                subtitle: '',
-                announcement: '',
-                template_id: '1',
+            setFormData((prev) => ({
+                header_section: {
+                    announcement: "",
+                    tagline: "",
+                    sub_title: "",
+                    images: []
+                },
+                template_id: prev.template_id ?? '1',
                 button_title: 'Shop Now',
                 product_id: result.id.match(/(\d+)$/)[0],
                 product_title: result.title,
                 price: result.price,
                 description: result.description,
                 variant_id: result.variant_id.match(/(\d+)$/)[0]
-            })
+            }))
             setFiles2([result.images[0]]);
             setFiles(result.images);
 
@@ -514,8 +524,8 @@ const Middleware = () => {
                             <Grid2 container spacing={1}>
                             <div className='p-2 bg-black w-full rounded-sm text-white'>Header Section</div>
                                 <Grid2 spacing={1} container size={12}>
-                                    {formData.template_id === '2' && <TextField disabled={formData.product_id === ''} name='announcement' value={formData.announcement} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Announcement (optional)" variant="outlined" fullWidth />}
-                                    {formData.template_id === '2' && <TextField name='head_tagline' value={formData.head_tagline} onChange={handleChange} id="head_tagline" className='focus:outline-black' label='Top Headline (Optional)' variant='outlined' fullWidth />}
+                                    {formData.template_id === '2' && <TextField disabled={formData.product_id === ''} name='announcement' value={formData.header_section['announcement']} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Announcement (optional)" variant="outlined" fullWidth />}
+                                    {formData.template_id === '2' && <TextField name='tagline' value={formData.header_section['tagline']} onChange={handleChange} id="head_tagline" className='focus:outline-black' label='Top Headline (Optional)' variant='outlined' fullWidth />}
                                     {formData.template_id === '2' &&
                                         <UploadFilesInput formData={formData} sectionState={files2} setSectionState={setFiles2} />
                                     }
@@ -553,9 +563,9 @@ const Middleware = () => {
                                         </div>
                                     }
                                     {formData.template_id === '1' && <>
-                                        <TextField disabled={formData.product_id === ''} name='announcement' value={formData.announcement} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Announcement (optional)" variant="outlined" fullWidth />
-                                    <TextField disabled={formData.product_id === ''} name='tagline' value={formData.tagline} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Tagline (optional)" variant="outlined" fullWidth />
-                                    <TextField disabled={formData.product_id === ''} name='subtitle' value={formData.subtitle} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Sub title (optional)" variant="outlined" fullWidth />
+                                        <TextField disabled={formData.product_id === ''} name='announcement' value={formData.header_section['announcement']} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Announcement (optional)" variant="outlined" fullWidth />
+                                        <TextField disabled={formData.product_id === ''} name='tagline' value={formData.header_section['tagline']} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Tagline (optional)" variant="outlined" fullWidth />
+                                        <TextField disabled={formData.product_id === ''} name='sub_title' value={formData.header_section['sub_title']} onChange={handleChange} id="outlined-basic" className='focus:outline-black' label="Sub title (optional)" variant="outlined" fullWidth />
                                     </>
                                     }
                                     
@@ -610,36 +620,23 @@ const Middleware = () => {
 
                     {!isFormEmpty ? <div className='overflow-y-auto overflow-x-hidden m-1 border border-black border-dashed rounded-md w-[98.5%]'>
                         {formData.template_id === '1' ?
-                            <Template01 variantId={formData.variant_id} productItem={formData.product_id} tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} payment={false} /> :
+                            <Template01 variantId={formData.variant_id} productItem={formData.product_id} header_section={formData.header_section} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} payment={false} /> :
                             <Template02
                                 button_title={formData.button_title}
                                 mainBg={files2[0]}
-                                head_tagline={formData.head_tagline}
                                 benefitsData={benefits}
                                 similarProductsDetails={selectedProducts}
                                 variantId={formData.variant_id}
                                 productItem={formData.product_id}
-                                sub_title={formData.subtitle}
+                                header_section={formData.header_section}
                                 product_title={formData.product_title}
                                 price={formData.price}
                                 images={files}
                                 description={formData.description}
-                                announcement={formData.announcement}
                                 payment={false}
                             />
                         }
                     </div> : <div className='text-red-500 flex justify-center items-center h-[95%]'>No Preview</div>}
-
-
-                    {/* {!isFormEmpty ? <div className='overflow-y-auto overflow-x-hidden m-1 border border-black border-dashed rounded-md w-[98.5%]'>
-                        <ProductCart variantId={formData.variant_id} productItem={formData.product_id} tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} payment={false} />
-                    </div> : <div className='text-red-500 flex justify-center items-center h-[95%]'>No Preview</div>} */}
-
-                    {/* <IPhonePreview>
-                        {!isFormEmpty ? <div className='overflow-y-auto overflow-x-hidden scrollbar-hide m-1 border h-[99%] w-[98.5%]'>
-                            <ProductCart insideIphonePreview={true} variantId={formData.variant_id} productItem={formData.product_id} tagline={formData.tagline} sub_title={formData.subtitle} product_title={formData.product_title} price={formData.price} images={files} description={formData.description} announcement={formData.announcement} />
-                        </div> : <div className='text-red-500 flex justify-center items-center h-full'>No Preview</div>}
-                    </IPhonePreview> */}
 
                 </div>
 

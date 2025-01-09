@@ -73,9 +73,9 @@ const SideBarRight = (props) => {
                     </div>
 
                     {/* Product Title and Price */}
-                    <div className="flex justify-between items-center">
+                    <div className="flex justify-between items-center space-x-2">
                         <div className="space-y-1">
-                            <h2 className="text-2xl font-serif font-bold">{product_title}</h2>
+                            <h2 className="text-2xl font-serif font-bold max-w-[390px]">{product_title}</h2>
                             <a href="https://shop.drinkmoment.com/" target='_blank' className="font-light text-gray-600 hover:text-gray-900 inline-flex items-center gap-1">
                                 View on site <TbExternalLink className="w-4 h-4" />
                             </a>
@@ -364,7 +364,7 @@ const ProductCart = (props) => {
                             </div>
 
                             {/* Thumbnail Images */}
-                            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 w-[330px] md:w-auto">
+                            <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 md:w-auto">
                                 {images.map((image, index) => (
                                     <button
                                         key={index}
@@ -387,8 +387,8 @@ const ProductCart = (props) => {
                         {/* Product Details */}
                         <div className="space-y-6">
 
-                            <div className="flex justify-between items-center">
-                                <h2 className="text-2xl font-serif font-bold">{product_title}</h2>
+                            <div className="flex justify-between items-center space-x-2">
+                                <h2 className="text-2xl font-serif font-bold max-w-[390px]">{product_title}</h2>
                                 <div className="text-xl font-serif font-bold text-nowrap">US ${price}</div>
                             </div>
 

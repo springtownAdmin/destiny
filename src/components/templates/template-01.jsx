@@ -7,7 +7,7 @@ import ReviewSection from '../reviews';
 
 const Template01 = (props) => {
 
-    const { announcement = '', tagline = '', sub_title = '', images = null, description = '' } = props;
+    const { header_section={}, images = null, description = '' } = props;
     const { price = '0.1' } = props;
     const { product_title = '', variantId = '', productItem = '' } = props;
 
@@ -17,17 +17,17 @@ const Template01 = (props) => {
     return (
         <>
             {/* Announcement Banner */}
-            {announcement !== '' && <div className="w-full bg-[#ffff99] uppercase p-2 text-center text-sm font-medium">
-                {announcement}
+            {header_section?.announcement !== '' && <div className="w-full bg-[#ffff99] uppercase p-2 text-center text-sm font-medium">
+                {header_section?.announcement}
             </div>}
 
             <main className="container mx-auto px-4 py-8">
 
                 {/* Product Header */}
-                {(tagline !== '' || sub_title !== '') && <div className="text-center mb-8">
-                    <h1 className="text-3xl md:text-4xl font-bold mb-2 font-serif">{tagline}</h1>
+                {(header_section?.tagline !== '' || header_section?.sub_title !== '') && <div className="text-center mb-8">
+                    <h1 className="text-3xl md:text-4xl font-bold mb-2 font-serif">{header_section?.tagline}</h1>
                     <p className="text-gray-600 font-light">
-                        {sub_title}
+                        {header_section?.sub_title}
                     </p>
                 </div>}
 
@@ -47,7 +47,7 @@ const Template01 = (props) => {
                         </div>
 
                         {/* Thumbnail Images */}
-                        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 w-[330px] md:w-auto">
+                        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 md:w-auto">
                             {images !== null && images.map((image, index) => (
                                 <button
                                     key={index}
@@ -66,8 +66,8 @@ const Template01 = (props) => {
                     {/* Product Details */}
                     <div className="space-y-6">
 
-                        {(product_title !== '' || price !== '') && <div className="flex justify-between items-center">
-                            <h2 className="text-2xl font-serif font-bold">{product_title}</h2>
+                        {(product_title !== '' || price !== '') && <div className="flex justify-between items-center space-x-2">
+                            <h2 className="text-2xl font-serif font-bold max-w-[390px]">{product_title}</h2>
                             <div className="text-xl font-serif font-bold text-nowrap">US ${price}</div>
                         </div>}
 

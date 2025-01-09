@@ -3,6 +3,8 @@ import uploadImg from "/images/upload-img.jpg";
 import { FiUpload } from "react-icons/fi";
 import { IoIosCloseCircle } from "react-icons/io";
 import { AiOutlineLink } from "react-icons/ai";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function UploadFilesInput({ sectionState, setSectionState, formData }) {
   const fileRef = useRef(null);
@@ -38,18 +40,38 @@ function UploadFilesInput({ sectionState, setSectionState, formData }) {
   };
 
   const handleAddURL = () => {
-    if (!imageURL) return;
+    if (!imageURL) {
+      toast.error("Please enter a URL."); // Notify user if the URL is empty
+      return;
+    }
+  
+    // Validate the URL format and ensure it's an image
+    const urlPattern = /^(https?:\/\/).*\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i;
+    if (!urlPattern.test(imageURL.trim())) {
+      toast.error("Please enter a valid image URL (e.g., .jpg, .png).");
+      return;
+    }
+  
+    // Check for duplicates
+    if (filesToDisplay.includes(imageURL)) {
+      toast.error("This image URL has already been added.");
+      return;
+    }
+  
+    // Add the valid image URL
     const updatedURLs = [...filesToDisplay, imageURL];
-
+  
     if (Array.isArray(sectionState)) {
       setSectionState(updatedURLs);
     } else if (typeof sectionState === "object" && sectionState !== null) {
       setSectionState({ ...sectionState, file: updatedURLs });
     }
-
+  
     setImageURL(""); // Clear input field
     setIsModalOpen(false); // Close modal
   };
+  
+  
 
   const filesToDisplay = Array.isArray(sectionState)
     ? sectionState

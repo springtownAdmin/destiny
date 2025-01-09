@@ -11,7 +11,7 @@ import useEmblaCarousel from 'embla-carousel-react'
 const HeroSection = ({ head_tagline, mainBg, button_title }) => {
 
     return (
-        <section className="max-w-7xl mx-auto px-4 py-12 md:py-16 ">
+        <section className="max-w-7xl mx-auto px-4 py-12 md:py-16">
             <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
                 {/* Text Content */}
                 <div className="w-full md:w-1/2 space-y-6">
@@ -30,7 +30,7 @@ const HeroSection = ({ head_tagline, mainBg, button_title }) => {
                         </div>
                     </div>
 
-                    <button className="w-full md:w-auto bg-pink-400 hover:bg-pink-500 transition-colors text-white font-medium py-4 px-8 rounded-md">
+                    <button className="w-full md:w-auto bg-pink-500  hover:bg-pink-500 transition-colors text-white font-medium py-4 px-8 rounded-md">
                         {button_title}
                     </button>
 
@@ -102,7 +102,7 @@ const Benefits = ({ button_title, benefitsData }) => {
 
                             {/* CTA Section */}
                             <div className="flex flex-col items-center space-y-4">
-                                <button className="w-full md:w-auto bg-pink-400 hover:bg-pink-500 transition-colors text-white font-medium py-4 px-12 rounded-md">
+                                <button className="w-full md:w-auto bg-pink-500  hover:bg-pink-500 transition-colors text-white font-medium py-4 px-12 rounded-md">
                                     {button_title}
                                 </button>
 
@@ -116,7 +116,7 @@ const Benefits = ({ button_title, benefitsData }) => {
                         {x.file.length > 0 && x.file.length === 1 ?
 
                             <div className="space-y-8 mt-3">
-                                <div className="relative aspect-square max-w-xl md:max-w-5xl mx-auto">
+                                <div className="relative aspect-square max-w-[440px] mx-auto">
                                     <img
                                         src={x.file[0]}
                                         alt="Zero alcohol cocktail with natural ingredients"
@@ -181,10 +181,10 @@ const Benefits = ({ button_title, benefitsData }) => {
 
 const Template02 = (props) => {
 
-    const { announcement = '', tagline = '', head_tagline = '', sub_title = '', images = null, description = '' } = props;
+    const { images = null, description = '' } = props;
     const { price = '0.1', product_title = '', variantId = '', productItem = '' } = props;
     const { button_title = '', mainBg = null } = props;
-    const { benefitsData = [], similarProductsDetails=[] } = props;
+    const { benefitsData = [], similarProductsDetails=[],header_section = {} } = props;
 
     const [selectedImage, setSelectedImage] = useState(0);
     const [purchaseOption, setPurchaseOption] = useState('one-time');
@@ -194,12 +194,12 @@ const Template02 = (props) => {
         <div className="h-[900px] bg-white relative overflow-x-hidden scrollbar-hide">
 
             {/* Announcement Banner */}
-            {announcement !== '' && <div className="w-full bg-[#ffff99] uppercase p-2 text-center text-sm font-medium">
-                {announcement}
+            {header_section.announcement !== '' && <div className="w-full bg-[#ffff99] uppercase p-2 text-center text-sm font-medium">
+                {header_section.announcement}
             </div>}
 
             <div className='bg-orange-50'>
-                <HeroSection head_tagline={head_tagline} mainBg={mainBg} button_title={button_title} />
+                <HeroSection head_tagline={header_section.tagline} mainBg={mainBg} button_title={button_title} />
             </div>
 
             {benefitsData.length > 0 &&
@@ -250,8 +250,8 @@ const Template02 = (props) => {
             <main className="container mx-auto px-4 py-8">
 
                 {/* Product Header */}
-                {(tagline !== '') && <div className="text-center mb-8">
-                    <h1 className="text-3xl md:text-4xl font-bold mb-2 font-serif">{tagline}</h1>
+                {(header_section?.tagline !== '') && <div className="text-center mb-8">
+                    <h1 className="text-3xl md:text-4xl font-bold mb-2 font-serif">{header_section?.tagline}</h1>
                 </div>}
 
                 {/* Product Section */}
@@ -270,7 +270,7 @@ const Template02 = (props) => {
                         </div>
 
                         {/* Thumbnail Images */}
-                        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 w-[330px] md:w-auto">
+                        <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2  md:w-auto">
                             {images !== null && images.map((image, index) => (
                                 <button
                                     key={index}
@@ -289,8 +289,8 @@ const Template02 = (props) => {
                     {/* Product Details */}
                     <div className="space-y-6">
 
-                        {(product_title !== '' || price !== '') && <div className="flex justify-between items-center">
-                            <h2 className="text-2xl font-serif font-bold">{product_title}</h2>
+                        {(product_title !== '' || price !== '') && <div className="flex justify-between items-center space-x-2">
+                            <h2 className="text-2xl font-serif font-bold max-w-[390px]">{product_title}</h2>
                             <div className="text-xl font-serif font-bold text-nowrap">US ${price}</div>
                         </div>}
 

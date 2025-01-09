@@ -108,7 +108,7 @@ export default function ReviewSection() {
   }
 
   const ReviewCard = ({ review }) => (
-    <div className="flex flex-col gap-2 p-4 border-b last:border-b-0">
+    <div className="gap-2 space-y-2 p-4 border-b last:border-b-0">
       <div className="flex gap-1">{renderStars(review.rating)}</div>
       <h3 className="font-bold text-lg">{review.title}</h3>
       <p className="text-gray-600 text-sm font-light">{review.content}</p>
