@@ -255,11 +255,11 @@ const Template02 = (props) => {
                 </div>}
 
                 {/* Product Section */}
-                <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <div className="md:grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
 
                     {/* Product Images */}
                     <div className="space-y-4">
-                        <div className="bg-[#e75d8e] rounded-lg overflow-hidden scrollbar-hide">
+                        <div className="rounded-lg overflow-hidden scrollbar-hide shadow-md">
                             <div className="relative aspect-square">
                                 {images !== null && <img
                                     src={images[selectedImage]}

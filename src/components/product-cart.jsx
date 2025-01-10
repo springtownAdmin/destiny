@@ -349,7 +349,7 @@ const ProductCart = (props) => {
                     </div>
 
                     {/* Product Section */}
-                    <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                    <div className="md:grid shadow-md md:grid-cols-2 gap-8 max-w-6xl mx-auto">
 
                         {/* Product Images */}
                         <div className="space-y-4">
