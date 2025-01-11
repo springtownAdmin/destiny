@@ -36,7 +36,7 @@ const Template01 = (props) => {
 
                     {/* Product Images */}
                     <div className="space-y-4">
-                        <div className="rounded-lg overflow-hidden scrollbar-hide shadow-md">
+                        <div className="rounded-lg overflow-hidden scrollbar-hide shadow-md max-w-[340px] md:max-w-full mx-auto">
                             <div className="relative aspect-square">
                                 {images !== null && <img
                                     src={images[selectedImage]}

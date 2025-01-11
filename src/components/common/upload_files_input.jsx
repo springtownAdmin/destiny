@@ -46,7 +46,8 @@ function UploadFilesInput({ sectionState, setSectionState, formData }) {
     }
   
     // Validate the URL format and ensure it's an image
-    const urlPattern = /^(https?:\/\/).*\.(jpg|jpeg|png|gif|bmp|webp|svg)$/i;
+    const urlPattern = /^(https?:\/\/.*\.(?:jpg|jpeg|png|gif|bmp|webp|svg))(?:\?.*)?$/i;
+
     if (!urlPattern.test(imageURL.trim())) {
       toast.error("Please enter a valid image URL (e.g., .jpg, .png).");
       return;
